@@ -36,5 +36,7 @@
 </div>
 @stop
 @section('Scripts')
-<script type="text/javascript" src="{{ asset('assets/js/pages/home/home.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/pages/home/home.js') }}">
+
+</script>
 @endsection
