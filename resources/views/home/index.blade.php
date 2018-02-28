@@ -6,7 +6,7 @@
         <h4 class="text-center"  style="display:none;"> {{ $settings->subTitle }}</h4>
         <h1 class="text-center"  style="display:none;">{{ $settings->mainTitle }}</h1>
         <div class="bottom-stuff mg-tp-10v">
-            <div class="parent"   style="display:none;">
+            <div class="parent-block"   style="display:none;">
                 <div class="tiles">
                     <ul>
                         @foreach($services as $service)
@@ -36,7 +36,12 @@
 </div>
 @stop
 @section('Scripts')
-<script type="text/javascript" src="{{ asset('assets/js/pages/home/home.js') }}">
-
+<script type="text/javascript" src="{{ asset('assets/js/pages/home/home.js') }}"></script>
+<script>
+    $(function() {
+        App.Page.Home({
+            test: "{{ uniqid('bodyyyy') }}"
+        });
+    })
 </script>
 @endsection

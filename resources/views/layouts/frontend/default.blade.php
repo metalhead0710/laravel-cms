@@ -10,7 +10,15 @@
 	  gtag('js', new Date());
 
 	  gtag('config', 'UA-109290406-1');
+
 	</script>
+    <script type="text/javascript">
+        window.App = {
+            Settings: {
+                root: "/"
+            }
+        };
+    </script>
 
     <meta charset="utf-8">
     <title> @yield('title') - Продюсерський центр МіК</title>
@@ -49,23 +57,11 @@
 </div>
 <script src="{{ URL::asset('assets/components/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ URL::asset('assets/components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/frontend.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/common.js') }}"></script>
 @yield('Scripts')
 <script>
-    $( document ).ready(function() {
-        $(function(){
-            var navMain = $("#mainMenu");
-            navMain.on("click", "a", null, function () {
-                navMain.collapse('hide');
-            });
-        });
-
-        $('h4').slideDown(1500);
-        $('h1').slideDown(1500);
-        $('.parent').show(1500);
-        $('.tiles').on( 'mouseenter click', '[data-toggle="tab"]', function () {
-            $(this).tab('show');
-        });
+    $(function() {
+        App.Page._common();
     });
 </script>
 </body>
