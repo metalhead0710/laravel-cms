@@ -25,14 +25,30 @@ class SettingsController extends ControllerBase
             'subTitle' => 'required',
             'meta_keywords' => 'required',
             'meta_description' => 'required',
+            'siteLogo' => 'mimes:jpeg,bmp,png'
         ]);
         $settings = Setting::find(1);
+        if($request->hasFile('photo'))
+        {
+            $siteLogo = $request-file('siteLogo');
+            $folder = 'upload/settings/';
+            $fileName = time() . '.' . $siteLogo->getClientOriginalExtension();
+            $thumbName = time() . '.' . $siteLogo->getClientOriginalExtension();
+            if (!file_exists( public_path() . '/' . $folder .'/thumbs/')) {
+                mkdir(public_path() . '/' . $folder .'/thumbs/', 0777, true);
+            }
+            $thumbUrl = $folder .'/thumbs/' . $thumbName;
+            $thumb = Image::make($siteLogo)->fit(350,250);
+            $thumb->save(public_path() . '/' . $thumbUrl);
+            $siteLogo->move(public_path() . '/' . $folder , $fileName );
+        }
         if ($settings == null) {
             $storeSettings = Setting::create([
                 'mainTitle' => $request->input('mainTitle'),
                 'subTitle' => $request->input('subTitle'),
                 'meta_keywords' => $request->input('meta_keywords'),
-                'meta_description' => $request->input('meta_description')
+                'meta_description' => $request->input('meta_description'),
+                'siteLogo' => isset($fileName) ? $fileName : '',
             ]);
         }
         else {
@@ -40,15 +56,12 @@ class SettingsController extends ControllerBase
             $settings->subTitle = $request->input('subTitle');
             $settings->meta_description = $request->input('meta_description');
             $settings->meta_keywords = $request->input('meta_keywords');
+            $settings->siteLogo = isset($fileName) ? $fileName : '';
             $storeSettings = $settings->save();
         }
-        $clear = Service::where('onMain', '=', true)
-                ->update(['onMain' => false]);
-        $chosen_ids = $request->input('onMain');
-        $setAsMain = Service::whereIn('id', $chosen_ids)
-                ->update(['onMain' => true]);
 
-        if ($storeSettings && $clear && $setAsMain) {
+
+        if ($storeSettings) {
             return redirect()->route('admin.settings')->with('success', 'Налаштування збережено');
         }
         return redirect()->route('admin.settings')->with('error', 'Налаштування не збережено');

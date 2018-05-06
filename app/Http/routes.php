@@ -86,7 +86,7 @@ Route::get('/auth/logout', [
     ]);
 
 
-Route::group(['prefix' => 'admin', 'middleware' => 'Mik\Http\Middleware\AdminMiddleware'], function()
+Route::group(['prefix' => 'dominator', 'middleware' => 'Mik\Http\Middleware\AdminMiddleware'], function()
 {
     Route::get('/', [
 		'uses' => '\Mik\Http\Controllers\Admin\HomeController@index',

@@ -11,7 +11,8 @@ class Setting extends Model
         'mainTitle',
         'subTitle',
         'meta_keywords',
-        'meta_description'
+        'meta_description',
+        'siteLogo'
     ];
     public $timestamps = false;
 }

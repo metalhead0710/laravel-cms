@@ -11,7 +11,7 @@
 <section class="content">
     <div class="row">
         @include('layouts._partials.feedback')
-        <form method="post" class="form form-horizontal">
+        <form method="post" class="form form-horizontal" enctype="multipart/form-data">
             <div class="form-group{{ $errors->has('mainTitle') ? ' has-error' : ''}}">
                 <label for="mainTitle" class="control-label col-md-2">Заголовок сайту</label>
                 <div class="col-md-10">
@@ -49,28 +49,14 @@
                     @endif
                 </div>
             </div>
-            <div class="form-group{{ $errors->has('onMain') ? ' has-error' : ''}}">
-                <label for="services" class="control-label col-md-2">Послуги на головній</label>
+            <div class="form-group{{ $errors->has('siteLogo') ? ' has-error' : ''}}">
+                <label for="file" class="control-label col-md-2">Лого</label>
                 <div class="col-md-10">
-                    <table class="table">
-                        @foreach($services as $service)
-                        <tr>
-                            <td class="text-center cell-middle">
-                                <input name="onMain[]" type="checkbox" {{ $service->onMain ? 'checked' : '' }} value="{{ $service->id }}">
-                            </td>
-                            <td class="text-center cell-middle">
-                                <img src="{{ asset($service->pic) }}" style="width: 50px" />
-                            </td>
-                            <td class="cell-middle">
-                                {{ $service->name }}
-                            </td>
-                        </tr>
-                        @endforeach
-                    </table>
+                    <input type="file" name="siteLogo" title="Вибрати файл">
+                    @if($errors->has('siteLogo'))
+                        <span class="help-block">{{$errors->first('siteLogo')}}</span>
+                    @endif
                 </div>
-                @if($errors->has('onMain'))
-                <span class="help-block">{{$errors->first('onMain')}}</span>
-                @endif
             </div>
             <div class="form-group">
                 <div class="col-md-10 col-md-offset-2">
