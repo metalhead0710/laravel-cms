@@ -1,12 +1,12 @@
 <?php
 
-namespace Mik\Http\Controllers;
+namespace PyroMans\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Mik\Http\Requests;
-use Mik\Photo;
-use Mik\PhotoCategory;
+use PyroMans\Http\Requests;
+use PyroMans\Photo;
+use PyroMans\PhotoCategory;
 
 class PhotosController extends ControllerBase
 {

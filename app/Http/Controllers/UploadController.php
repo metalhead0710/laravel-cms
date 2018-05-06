@@ -1,6 +1,6 @@
 <?php
 
-namespace Mik\Http\Controllers;
+namespace PyroMans\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory as Validator;

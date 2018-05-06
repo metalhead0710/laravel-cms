@@ -1,6 +1,6 @@
 <?php
 
-namespace Mik\Http\Middleware;
+namespace PyroMans\Http\Middleware;
 
 use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
 

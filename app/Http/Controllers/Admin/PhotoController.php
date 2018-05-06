@@ -1,16 +1,16 @@
 <?php
 
-namespace Mik\Http\Controllers\Admin;
+namespace PyroMans\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
-use Mik\Http\Requests;
-use Mik\Http\Controllers\ControllerBase;
-use Mik\Photo;
-use Mik\PhotoCategory;
+use PyroMans\Http\Requests;
+use PyroMans\Http\Controllers\ControllerBase;
+use PyroMans\Photo;
+use PyroMans\PhotoCategory;
 use File;
 use Image;
-use Mik\Auxillary\Translit;
+use PyroMans\Auxillary\Translit;
 use Validator;
 
 class PhotoController extends ControllerBase

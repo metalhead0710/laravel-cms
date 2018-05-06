@@ -152,10 +152,10 @@ return [
         /*
          * Application Service Providers...
          */
-        Mik\Providers\AppServiceProvider::class,
-        Mik\Providers\AuthServiceProvider::class,
-        Mik\Providers\EventServiceProvider::class,
-        Mik\Providers\RouteServiceProvider::class,
+        PyroMans\Providers\AppServiceProvider::class,
+        PyroMans\Providers\AuthServiceProvider::class,
+        PyroMans\Providers\EventServiceProvider::class,
+        PyroMans\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Spatie\Analytics\AnalyticsServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,

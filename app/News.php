@@ -1,6 +1,6 @@
 <?php
 
-namespace Mik;
+namespace PyroMans;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mik\Providers;
+namespace PyroMans\Providers;
 
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'Mik\Events\SomeEvent' => [
-            'Mik\Listeners\EventListener',
+        'PyroMans\Events\SomeEvent' => [
+            'PyroMans\Listeners\EventListener',
         ],
     ];
 

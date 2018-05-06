@@ -1,8 +1,8 @@
 <?php
 
-namespace Mik\Http\Controllers\Auth;
+namespace PyroMans\Http\Controllers\Auth;
 
-use Mik\Http\Controllers\Controller;
+use PyroMans\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class PasswordController extends Controller

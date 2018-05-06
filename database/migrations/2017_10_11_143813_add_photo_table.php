@@ -14,7 +14,8 @@ class AddPhotoTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('filename');
+            $table->string('photo');
+            $table->string('thumb');
             $table->integer('categoryId')->unsigned();
 	        $table->foreign('categoryId')->references('id')->on('photocats');
             $table->timestamps();

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddLogoToSettings extends Migration
+class AddSocialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class AddLogoToSettings extends Migration
      */
     public function up()
     {
-        Schema::table('settings', function (Blueprint $table) {
-            $table->string('siteLogo');
+        Schema::create('socials', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('icon');
+            $table->string('thumb');
+            $table->string('url');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +30,6 @@ class AddLogoToSettings extends Migration
      */
     public function down()
     {
-        Schema::table('settings', function (Blueprint $table) {
-            $table->dropColumn('siteLogo');
-        });
+        Schema::dropIfExists('socials');
     }
 }

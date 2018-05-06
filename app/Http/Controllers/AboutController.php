@@ -1,12 +1,12 @@
 <?php
 
-namespace Mik\Http\Controllers;
+namespace PyroMans\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Mik\Http\Requests;
-use Mik\Person;
-use Mik\Work;
+use PyroMans\Http\Requests;
+use PyroMans\Person;
+use PyroMans\Work;
 
 class AboutController extends ControllerBase
 {

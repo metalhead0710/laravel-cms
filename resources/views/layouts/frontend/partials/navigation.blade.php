@@ -7,10 +7,7 @@
             <a href="{{ route('news') }}" >Новини</a>
         </li>
         <li>
-            <a href="{{ route('services') }}">Послуги</a>
-        </li>
-        <li>
-            <a href="{{ route('about') }}" >Про нас</a>
+            <a href="#">Послуги</a>
         </li>
         <li>
             <a href="{{ route('photos') }}" >Фото</a>

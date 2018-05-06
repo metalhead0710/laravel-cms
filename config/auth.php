@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Mik\User::class,
+            'model' => PyroMans\User::class,
         ],
 
         // 'users' => [

@@ -1,19 +1,19 @@
 <?php
 
-namespace Mik\Http\Controllers;
+namespace PyroMans\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Mik\Http\Requests;
-use Mik\Service;
-use Mik\Setting;
+use PyroMans\Http\Requests;
+use PyroMans\Service;
+use PyroMans\Setting;
 
 class HomeController extends ControllerBase
 {
     public function index()
     {
         $settings = Setting::first();
-        $services = Service::where('onMain', true)->get();
-		return view('home.index', ['settings' => $settings, 'services' => $services]);
+
+		return view('home.index', ['settings' => $settings]);
 	}
 }

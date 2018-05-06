@@ -1,21 +1,22 @@
 <?php
 
-namespace Mik\Http\Controllers\Admin;
+namespace PyroMans\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
-use Mik\Http\Requests;
-use Mik\Http\Controllers\ControllerBase;
-use Mik\Service;
-use Mik\Setting;
+use Image;
+use PyroMans\Http\Requests;
+use PyroMans\Http\Controllers\ControllerBase;
+use PyroMans\Service;
+use PyroMans\Setting;
+use PyroMans\Auxillary\FileUpload;
 
 class SettingsController extends ControllerBase
 {
     public function index()
     {
         $settings = Setting::find(1);
-        $services = Service::all();
-        return view('admin.settings.index', ['settings' => $settings, 'services' => $services]);
+
+        return view('admin.settings.index', ['settings' => $settings]);
     }
 
     public function postIndex(Request $request)
@@ -28,19 +29,17 @@ class SettingsController extends ControllerBase
             'siteLogo' => 'mimes:jpeg,bmp,png'
         ]);
         $settings = Setting::find(1);
-        if($request->hasFile('photo'))
+        if($request->hasFile('siteLogo'))
         {
-            $siteLogo = $request-file('siteLogo');
-            $folder = 'upload/settings/';
-            $fileName = time() . '.' . $siteLogo->getClientOriginalExtension();
-            $thumbName = time() . '.' . $siteLogo->getClientOriginalExtension();
-            if (!file_exists( public_path() . '/' . $folder .'/thumbs/')) {
-                mkdir(public_path() . '/' . $folder .'/thumbs/', 0777, true);
-            }
-            $thumbUrl = $folder .'/thumbs/' . $thumbName;
-            $thumb = Image::make($siteLogo)->fit(350,250);
-            $thumb->save(public_path() . '/' . $thumbUrl);
-            $siteLogo->move(public_path() . '/' . $folder , $fileName );
+            $siteLogo = $request->file('siteLogo');
+
+            $fileArray = FileUpload::uploadAndMakeThumb(
+                $siteLogo,
+                "settings",
+                "logo",
+                350,
+                250
+            );
         }
         if ($settings == null) {
             $storeSettings = Setting::create([
@@ -48,7 +47,8 @@ class SettingsController extends ControllerBase
                 'subTitle' => $request->input('subTitle'),
                 'meta_keywords' => $request->input('meta_keywords'),
                 'meta_description' => $request->input('meta_description'),
-                'siteLogo' => isset($fileName) ? $fileName : '',
+                'siteLogo' => isset($fileArray) ? $fileArray['fileUrl'] : ''
+
             ]);
         }
         else {
@@ -56,7 +56,7 @@ class SettingsController extends ControllerBase
             $settings->subTitle = $request->input('subTitle');
             $settings->meta_description = $request->input('meta_description');
             $settings->meta_keywords = $request->input('meta_keywords');
-            $settings->siteLogo = isset($fileName) ? $fileName : '';
+            $settings->siteLogo = isset($fileArray) ? $fileArray['fileUrl'] : '';
             $storeSettings = $settings->save();
         }
 

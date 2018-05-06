@@ -1,6 +1,6 @@
 <?php
 
-namespace Mik\Auxillary;
+namespace PyroMans\Auxillary;
 
 class Translit 
 {

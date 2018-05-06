@@ -1,6 +1,6 @@
 <?php
 
-namespace Mik\Console\Commands;
+namespace PyroMans\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Inspiring;

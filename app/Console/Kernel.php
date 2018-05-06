@@ -1,6 +1,6 @@
 <?php
 
-namespace Mik\Console;
+namespace PyroMans\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;

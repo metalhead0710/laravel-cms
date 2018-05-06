@@ -1,10 +1,10 @@
 <?php
 
-namespace Mik\Http\Controllers\Auth;
+namespace PyroMans\Http\Controllers\Auth;
 use Illuminate\Http\Request;
-use Mik\User;
-use Mik\Http\Requests;
-use Mik\Http\Controllers\Controller;
+use PyroMans\User;
+use PyroMans\Http\Requests;
+use PyroMans\Http\Controllers\Controller;
 use Auth;
 
 class AuthController extends Controller

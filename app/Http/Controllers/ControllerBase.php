@@ -1,11 +1,11 @@
 <?php
 
-namespace Mik\Http\Controllers;
+namespace PyroMans\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use Mik\Message;
-use Mik\Setting;
+use PyroMans\Message;
+use PyroMans\Setting;
 
 class ControllerBase extends Controller
 {

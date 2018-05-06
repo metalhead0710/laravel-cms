@@ -52,6 +52,9 @@
             <div class="form-group{{ $errors->has('siteLogo') ? ' has-error' : ''}}">
                 <label for="file" class="control-label col-md-2">Лого</label>
                 <div class="col-md-10">
+                    @if (!empty($settings->siteLogo))
+                        <img src="{{ asset($settings->siteLogo) }}" />
+                    @endif
                     <input type="file" name="siteLogo" title="Вибрати файл">
                     @if($errors->has('siteLogo'))
                         <span class="help-block">{{$errors->first('siteLogo')}}</span>
@@ -71,5 +74,17 @@
 </section>
 @stop
 @section('Scripts')
-
+@section('Scripts')
+    <script src="{{ asset('assets/components/b-file-input/bootstrap-filestyle.min.js') }}"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('input[type=file]').filestyle({
+          text : 'Виберіть файл',
+          badge: true,
+          buttonBefore : true,
+          btnClass : 'btn-primary',
+          htmlIcon : '<i class="fa fa-file-image-o"></i> '
+        });
+      })
+    </script>
 @endsection

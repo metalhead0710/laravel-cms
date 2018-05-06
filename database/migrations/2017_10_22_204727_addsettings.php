@@ -16,6 +16,10 @@ class Addsettings extends Migration
             $table->increments('id');
             $table->string('mainTitle');
             $table->string('subTitle');
+            $table->string('meta_description');
+            $table->string('meta_keywords');
+            $table->string('siteLogo');
+            $table->string('siteLogoThumb');
         });
     }
 

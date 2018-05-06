@@ -17,6 +17,7 @@ class AddMsgTable extends Migration
             $table->string('sendname',60);
             $table->string('email',60);
             $table->string('content', 255);
+            $table->boolean('isNew');
             $table->timestamps();
         });
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mik;
+namespace PyroMans;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +15,7 @@ class Photo extends Model
 
     public function category()
     {
-        return $this->belongsTo('Mik\PhotoCategory', 'categoryId', 'id');
+        return $this->belongsTo('PyroMans\PhotoCategory', 'categoryId', 'id');
     }
 
     public function thumbUrl()

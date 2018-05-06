@@ -1,6 +1,6 @@
 <?php
 
-namespace Mik\Exceptions;
+namespace PyroMans\Exceptions;
 
 use Exception;
 use Illuminate\Validation\ValidationException;

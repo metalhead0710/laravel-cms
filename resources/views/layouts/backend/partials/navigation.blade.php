@@ -8,27 +8,21 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('admin.banners') }}">
+                    <i class="fa fa-file-image-o"></i>
+                    <span>Банери</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('admin.news') }}">
                     <i class="fa fa-newspaper-o"></i>
                     <span>Новини</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.people') }}">
-                    <i class="fa fa-users"></i>
-                    <span>Команда</span>
-                </a>
-            </li>
-            <li>
                 <a href="{{ route('admin.photos') }}">
                     <i class="fa fa-image"></i>
                     <span>Фото</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('admin.works') }}">
-                    <i class="fa fa-bullhorn"></i>
-                    <span>Роботи</span>
                 </a>
             </li>
             <li>

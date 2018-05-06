@@ -1,11 +1,11 @@
 <?php
 
-namespace Mik\Http\Controllers;
+namespace PyroMans\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Mik\Http\Requests;
-use Mik\News;
+use PyroMans\Http\Requests;
+use PyroMans\News;
 
 class NewsController extends ControllerBase
 {

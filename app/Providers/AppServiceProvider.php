@@ -1,6 +1,6 @@
 <?php
 
-namespace Mik\Providers;
+namespace PyroMans\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

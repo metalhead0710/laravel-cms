@@ -1,11 +1,11 @@
 <?php
 
-namespace Mik\Http\Controllers;
+namespace PyroMans\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Mik\Http\Requests;
-use Mik\Service;
+use PyroMans\Http\Requests;
+use PyroMans\Service;
 
 class ServicesController extends ControllerBase
 {

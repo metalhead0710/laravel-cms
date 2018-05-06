@@ -1,6 +1,6 @@
 <?php
 
-namespace Mik\Events;
+namespace PyroMans\Events;
 
 abstract class Event
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Mik\Http\Controllers\Admin;
+namespace PyroMans\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
-use Mik\Http\Requests;
-use Mik\Http\Controllers\ControllerBase;
-use Mik\News;
+use PyroMans\Http\Requests;
+use PyroMans\Http\Controllers\ControllerBase;
+use PyroMans\News;
 use Image;
 use File;
 

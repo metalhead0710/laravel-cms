@@ -546,3 +546,15 @@ table.dataTable thead .sorting:after {
 .chart-container{
     background-color: #ccc;
 }
+.banner-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+.banner-list li {
+  margin: 25px 0;
+}
+.banner-list li a {
+  width: calc(100% - 3px);
+  border-radius: 0;
+}
+

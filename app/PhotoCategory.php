@@ -1,6 +1,6 @@
 <?php
 
-namespace Mik;
+namespace PyroMans;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,7 +23,7 @@ class PhotoCategory extends Model
     }
     public function photos()
     {
-        return $this->hasMany('Mik\Photo', 'categoryId', 'id');
+        return $this->hasMany('PyroMans\Photo', 'categoryId', 'id');
     }
 
 }

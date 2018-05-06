@@ -1,12 +1,12 @@
 <?php
 
-namespace Mik\Http\Controllers;
+namespace PyroMans\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Mik\Http\Requests;
-use Mik\Contact;
-use Mik\Message;
+use PyroMans\Http\Requests;
+use PyroMans\Contact;
+use PyroMans\Message;
 use Mail;
 use Mockery\Exception;
 

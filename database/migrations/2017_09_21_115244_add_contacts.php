@@ -15,12 +15,9 @@ class AddContacts extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('email',60);
-        	$table->string('phone', 20);
-        	$table->string('phone2',20)->nullable();
-        	$table->string('vk',100)->nullable();
-        	$table->string('facebook',100)->nullable();  
-        	$table->string('youtube',100)->nullable();
+            $table->string('email', 60);
+            $table->string('phone', 20);
+            $table->string('phone2', 20)->nullable();
             $table->timestamps();
         });
     }
