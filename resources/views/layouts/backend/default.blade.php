@@ -10,7 +10,13 @@
     <meta name="author" content="">
 
     <title>@yield('title')</title>
-
+    <script type="text/javascript">
+        window.App = {
+            Settings: {
+                root: "/dominator"
+            }
+        };
+    </script>
     <link rel="stylesheet" href="{{asset('assets/components/bootstrap/dist/css/bootstrap.min.css')}}">
     <!-- Google fonts - Roboto -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
@@ -123,11 +129,17 @@
 <!-- Metis Menu Plugin JavaScript -->
 <script src="{{ URL::asset('assets/components/metisMenu/metisMenu.min.js') }}"></script>
 
+<!--Common Js file-->
+<script type="text/javascript" src="{{ asset('assets/js/common-backend.js') }}"></script>
+
 <!-- Custom Theme JavaScript -->
-<script src="{{ asset('assets/js/sb-admin-2.js') }}"></script>
+<!--<script src="{{ asset('assets/js/sb-admin-2.js') }}"></script>-->
 
 @yield('Scripts')
-
+<script>
+    $(function() {
+        App.Page._common();
+    });
+</script>
 </body>
-
 </html>

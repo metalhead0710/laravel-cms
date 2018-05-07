@@ -2,13 +2,11 @@
 
 namespace PyroMans\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use Image;
-use PyroMans\Http\Requests;
-use PyroMans\Http\Controllers\ControllerBase;
-use PyroMans\Service;
 use PyroMans\Setting;
+use Illuminate\Http\Request;
 use PyroMans\Auxillary\FileUpload;
+use PyroMans\Http\Controllers\ControllerBase;
 
 class SettingsController extends ControllerBase
 {
@@ -37,8 +35,8 @@ class SettingsController extends ControllerBase
                 $siteLogo,
                 "settings",
                 "logo",
-                350,
-                250
+                120,
+                80
             );
         }
         if ($settings == null) {
@@ -47,20 +45,20 @@ class SettingsController extends ControllerBase
                 'subTitle' => $request->input('subTitle'),
                 'meta_keywords' => $request->input('meta_keywords'),
                 'meta_description' => $request->input('meta_description'),
-                'siteLogo' => isset($fileArray) ? $fileArray['fileUrl'] : ''
-
+                'siteLogo' => isset($fileArray) ? $fileArray['fileUrl'] : '',
+                'siteLogoThumb' => isset($fileArray) ? $fileArray['thumbUrl'] : ''
             ]);
         }
         else {
+            FileUpload::deleteImageAndThumb($settings->siteLogo, $settings->siteLogoThumb);
             $settings->mainTitle = $request->input('mainTitle');
             $settings->subTitle = $request->input('subTitle');
             $settings->meta_description = $request->input('meta_description');
             $settings->meta_keywords = $request->input('meta_keywords');
             $settings->siteLogo = isset($fileArray) ? $fileArray['fileUrl'] : '';
+            $settings->siteLogoThumb = isset($fileArray) ? $fileArray['thumbUrl'] : '';
             $storeSettings = $settings->save();
         }
-
-
         if ($storeSettings) {
             return redirect()->route('admin.settings')->with('success', 'Налаштування збережено');
         }

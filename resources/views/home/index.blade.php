@@ -13,9 +13,7 @@
 <script type="text/javascript" src="{{ asset('assets/js/pages/home/home.js') }}"></script>
 <script>
     $(function() {
-        App.Page.Home({
-            test: "{{ uniqid('bodyyyy') }}"
-        });
+        App.Page.Home();
     })
 </script>
 @endsection

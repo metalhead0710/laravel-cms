@@ -17,7 +17,6 @@ class AddNews extends Migration
             $table->string('title',60);
             $table->string('image', 255);
             $table->text('text',20)->nullable();
-            $table->string('folder');
             $table->string('thumbUrl');
             $table->timestamps();
         });

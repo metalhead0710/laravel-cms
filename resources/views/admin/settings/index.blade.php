@@ -53,7 +53,7 @@
                 <label for="file" class="control-label col-md-2">Лого</label>
                 <div class="col-md-10">
                     @if (!empty($settings->siteLogo))
-                        <img src="{{ asset($settings->siteLogo) }}" />
+                        <img src="{{ asset($settings->siteLogoThumb) }}" />
                     @endif
                     <input type="file" name="siteLogo" title="Вибрати файл">
                     @if($errors->has('siteLogo'))

@@ -16,9 +16,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <table id="product-table" class="table table-hover">
+                <table id="product-table" class="table table-hover">
                         <thead>
                         <tr>
                             <th>Дії</th>
@@ -86,8 +84,6 @@
                             </tr>
                         </tfoot>
                     </table>
-                </div>
-                <!-- /.box-body -->
             </div>
             <!-- /.box -->
         </div>
@@ -115,13 +111,10 @@
 
 @stop
 @section('Scripts')
+<script src="{{ asset('assets/js/pages/admin/delete-item/list.js') }}"></script>
 <script type="text/javascript">
     $(function() {
-        $('.delete').on("click", function () {
-            var link = $(this).closest("a.delete");
-            var	url = link.data("link");
-            $('.delete-confirm').attr("href", url);
-        });
+        App.Page.Delete();
     });
 </script>
 @endsection

@@ -11,12 +11,6 @@ class News extends Model
         'title',
         'image',
         'text',
-        'folder',
         'thumbUrl'
     ];
-
-    public function url()
-    {
-        return $this->folder . '/' . $this->image;
-    }
 }

@@ -31,7 +31,7 @@
                 <ul class="banner-list">
                     @foreach ($banners as $banner)
                         <li class="col-md-3" data-id="{{ $banner->id }}" data-sort="{{ $banner->sort_order }}">
-                            <img src="{{ asset($banner->thumb) }}" alt="" />
+                            <img src="{{ asset($banner->thumb) }}" class="img-responsive" alt="" />
                             <a href="#delete-modal" data-toggle='modal' title="Видалити" data-link="{{ route('admin.banners.delete', ['id' => $banner->id]) }}" class="btn btn-danger delete" >
                                 <i class="fa fa-times"></i>
                                 Видалити
@@ -39,7 +39,6 @@
                         </li>
                     @endforeach
                 </ul>
-
                 {{ $banners->render() }}
             </div>
         </div>
@@ -107,85 +106,13 @@
 @section('Scripts')
     <script src="{{ asset('assets/components/b-file-input/bootstrap-filestyle.min.js') }}"></script>
     <script src="{{ asset('assets/components/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/admin/banners/list.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
       $(function() {
-        $('.delete').on('click', function() {
-          var link = $(this).closest('a.delete');
-          var url = link.data('link');
-          $('.delete-confirm').attr('href', url);
+        App.Page.Banners({
+            url: "{{ route('admin.banners.sortout') }}",
+            token: "{{csrf_token()}}"
         });
-        $('input[type=file]').filestyle({
-          text: 'Виберіть файл',
-          badge: true,
-          buttonBefore: true,
-          btnClass: 'btn-primary',
-          htmlIcon: '<i class="fa fa-file-image-o"></i> '
-        });
-
-        var showSaveButton = function() {
-          $('.save-order').show();
-        };
-        var hideSaveButton = function() {
-          $('.save-order').hide();
-        };
-        $('.save-order').on('click', function(e) {
-          var data = collectSortState();
-          $.ajax({
-            type: 'post',
-            url: '{{ route('admin.banners.sortout') }}',
-            data: {ids: data, _token: '{{csrf_token()}}'},
-            dataType: 'json',
-            success: function() {
-              alert('Відсортовано!');
-              hideSaveButton();
-            },
-            error: function() {
-              alert('Помилка сервера. Спробуйте папіжже');
-            }
-          });
-          e.preventDefault();
-        });
-
-        let collectSortState = function() {
-          let vals = [],
-              value = {};
-          $('.banner-list li').each(function() {
-            id = $(this).data('id');
-            sort = $(this).data('sort');
-            value = {
-              id: id,
-              sort: sort
-            };
-            vals.push(value);
-          });
-
-          return vals;
-        };
-
-        var fixHelperModified = function(e, ul) {
-              var $originals = ul.children();
-              var $helper = ul.clone();
-              $helper.children().each(function(index) {
-                $(this).width($originals.eq(index).width());
-              });
-              return $helper;
-            },
-            updateIndex = function(e, ui) {
-              $('.banner-list li').each(function(i) {
-                $(this).attr('data-sort', i + 1);
-              });
-            };
-
-        $('.banner-list').sortable({
-          helper: fixHelperModified,
-          stop: function(e, ui) {
-            updateIndex(e, ui);
-            showSaveButton();
-          }
-        }).disableSelection();
-
-
       });
-
     </script>
 @endsection
