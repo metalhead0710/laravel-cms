@@ -49,8 +49,8 @@ class ServicesController extends ControllerBase
             if (
             Service::create([
                     'name' => $request->input('name'),
-                    'pic' => isset($fileName) && isset($fileInfo) ? $fileInfo['fileUrl'] : '',
-                    'thumb' => isset($fileName) && isset($fileInfo) ? $fileInfo['thumbUrl'] : '',
+                    'pic' => isset($fileInfo) && isset($fileInfo) ? $fileInfo['fileUrl'] : '',
+                    'thumb' => isset($fileInfo) && isset($fileInfo) ? $fileInfo['thumbUrl'] : '',
                     'customCss' => $request->input('customCss'),
                     'customJs' => $request->input('customJs'),
                     'content' => $request->input('content'),
@@ -101,7 +101,7 @@ class ServicesController extends ControllerBase
             return redirect()->route('admin.services')->with('error', 'Немає такої послуги.');
         }
 
-        File::delete( public_path() . '/' . $service->pic);
+        FileUpload::deleteImageAndThumb($service->pic, $service->thumb);
 
         if ($service->delete())
         {
