@@ -18,8 +18,8 @@ class AddServicesTable extends Migration
             $table->string('pic');
             $table->string('thumb');
             $table->text('content');
-            $table->text('customCSS');
-            $table->text('customJS');
+            $table->text('customCss');
+            $table->text('customJs');
             $table->timestamps();
         });
     }

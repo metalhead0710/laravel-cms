@@ -29,12 +29,30 @@
                 @endif
             </div>
         </div>
-        <div class="form-group{{ $errors->has('description') ? ' has-error' : ''}}">
-            <label for="description" class="control-label col-md-2">Текст</label>
+        <div class="form-group{{ $errors->has('customCss') ? ' has-error' : ''}}">
+            <label for="customCss" class="control-label col-md-2">CSS</label>
             <div class="col-md-10">
-                <textarea class="form-control" id="description" name="description" placeholder="Напишіть щось...">{{old('description')}}</textarea>
-                @if($errors->has('description'))
-                <span class="help-block">{{$errors->first('description')}}</span>
+                <textarea class="form-control" id="customCss" name="customCss" placeholder="Стилізуй тут щось, якщо вмієш...">{{old('customCss')}}</textarea>
+                @if($errors->has('customCss'))
+                <span class="help-block">{{$errors->first('customCss')}}</span>
+                @endif
+            </div>
+        </div>
+        <div class="form-group{{ $errors->has('customJs') ? ' has-error' : ''}}">
+            <label for="customJs" class="control-label col-md-2">JS</label>
+            <div class="col-md-10">
+                <textarea class="form-control" id="customJs" name="customJs" placeholder="Заскриптуй тут щось, якщо вмієш...">{{old('customJs')}}</textarea>
+                @if($errors->has('customJs'))
+                    <span class="help-block">{{$errors->first('customJs')}}</span>
+                @endif
+            </div>
+        </div>
+        <div class="form-group{{ $errors->has('content') ? ' has-error' : ''}}">
+            <label for="content" class="control-label col-md-2">Сторінка</label>
+            <div class="col-md-10">
+                <textarea class="form-control" id="content" name="content" placeholder="Тут контент сторінки послуги...">{{old('content')}}</textarea>
+                @if($errors->has('content'))
+                    <span class="help-block">{{$errors->first('content')}}</span>
                 @endif
             </div>
         </div>
@@ -55,15 +73,12 @@
 @stop
 @section('Scripts')
 <script src="{{ asset('assets/components/b-file-input/bootstrap-filestyle.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/editarea/edit_area/edit_area_full.js') }}"></script>
+<script src="{{ asset('assets/components/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('assets/js/pages/admin/services/edit.js') }}"></script>
 <script type="text/javascript">
-    $(function() {
-        $('input[type=file]').filestyle({
-            text : 'Виберіть файл',
-            badge: true,
-            buttonBefore : true,
-            btnClass : 'btn-primary',
-            htmlIcon : '<i class="fa fa-file-image-o"></i> '
-        });
-    })
+  $(function() {
+    App.Page.Service();
+  });
 </script>
 @endsection

@@ -8,10 +8,11 @@ class Service extends Model
 {
     protected $table = 'services';
     protected $fillable = [
-      'name',
-      'description',
-      'pic',
-      'html_id',
-      'onMain'
+        'name',
+        'pic',
+        'thumb',
+        'content',
+        'customCss',
+        'customJs',
     ];
 }

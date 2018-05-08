@@ -1,7 +1,7 @@
 !(function($) {
   'use strict';
 
-  var Banners = {
+  var Carousel = {
     options: {
       url: null,
       token: null
@@ -101,12 +101,12 @@
     }
   };
 
-  App.Page.Banners = function(options, root) {
+  App.Page.Carousel = function(options, root) {
     root = root || $('body');
     root = $(root)[0];
-    if (!$.data(root, '_Banners')) {
-      $.data(root, '_Banners', Object.create(Banners).init(options, root));
+    if (!$.data(root, '_Carousel')) {
+      $.data(root, '_Carousel', Object.create(Carousel).init(options, root));
     }
-    return $.data(root, '_Banners');
+    return $.data(root, '_Carousel');
   };
 })(jQuery);

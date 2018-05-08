@@ -109,7 +109,7 @@
     <script src="{{ asset('assets/js/pages/admin/banners/list.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
       $(function() {
-        App.Page.Banners({
+        App.Page.Carousel({
             url: "{{ route('admin.banners.sortout') }}",
             token: "{{csrf_token()}}"
         });

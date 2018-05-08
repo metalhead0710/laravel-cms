@@ -4,6 +4,7 @@ namespace PyroMans\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
+use PyroMans\Auxillary\FileUpload;
 use PyroMans\Http\Requests;
 use PyroMans\Http\Controllers\ControllerBase;
 use PyroMans\Service;
@@ -34,19 +35,25 @@ class ServicesController extends ControllerBase
         {
             $this->validateInput($request);
 
-            $image = $request->file('pic');
-            if($request->hasFile('pic'))
-            {
-                $folder = 'upload/services/';
-                $fileName = uniqid('service') . '.' . $image->getClientOriginalExtension();
-                $request->file('pic')->move(public_path() . '/' . $folder , $fileName );
+
+            if($request->hasFile('pic')) {
+                $image = $request->file('pic');
+                $fileInfo = FileUpload::uploadAndMakeThumb(
+                    $image,
+                    'services',
+                    'service',
+                    200,
+                    100
+                );
             }
             if (
             Service::create([
                     'name' => $request->input('name'),
-                    'description' => $request->input('description'),
-                    'pic' => isset($fileName) && isset($folder) ? $folder . $fileName : '',
-                    'html_id' => uniqid('service_id')
+                    'pic' => isset($fileName) && isset($fileInfo) ? $fileInfo['fileUrl'] : '',
+                    'thumb' => isset($fileName) && isset($fileInfo) ? $fileInfo['thumbUrl'] : '',
+                    'customCss' => $request->input('customCss'),
+                    'customJs' => $request->input('customJs'),
+                    'content' => $request->input('content'),
                 ])
             )
             {
@@ -57,27 +64,27 @@ class ServicesController extends ControllerBase
         else if ( $service == null )
         {
             return redirect()->route('admin.services')->with('error', 'Немає такої послуги.');
-        }
-        else
-        {
+        } else {
             $this->validateInput($request);
-            $image = $request->file('pic');
 
             if($request->hasFile('pic'))
             {
-                File::delete(public_path() . '/' . $service->pic);
-
-                $folder = 'upload/services/';
-                $fileName = uniqid('service') . '.' . $image->getClientOriginalExtension();
-                $request->file('pic')->move(public_path() . '/' . $folder , $fileName );
-                $service->pic = $folder . $fileName;
-            }
-            if(isEmptyOrNullString($service->html_id))
-            {
-                $service->html_id = uniqid('service_id');
+                $image = $request->file('pic');
+                FileUpload::deleteImageAndThumb($service->pic, $service->thumb);
+                $fileInfo = FileUpload::uploadAndMakeThumb(
+                    $image,
+                    'services',
+                    'service',
+                    200,
+                    100
+                );
+                $service->pic = $fileInfo['fileUrl'];
+                $service->thumb = $fileInfo['thumbUrl'];
             }
             $service->name = $request->input('name');
-            $service->description = $request->input('description');
+            $service->customCss = $request->input('customCss');
+            $service->customJs = $request->input('customJs');
+            $service->content = $request->input('content');
             if ($service->save())
             {
                 return redirect()->route('admin.services')->with('success', 'Послугу збережено');
@@ -107,7 +114,8 @@ class ServicesController extends ControllerBase
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'pic' => 'mimes:jpeg,bmp,png'
+            'pic' => 'mimes:jpeg,bmp,png',
+            'content' => 'required'
         ]);
     }
 }
