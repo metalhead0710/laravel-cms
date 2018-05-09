@@ -16,6 +16,7 @@ class AddPhotoTable extends Migration
             $table->increments('id');
             $table->string('photo');
             $table->string('thumb');
+            $table->integer('sortOrder');
             $table->integer('categoryId')->unsigned();
 	        $table->foreign('categoryId')->references('id')->on('photocats');
             $table->timestamps();

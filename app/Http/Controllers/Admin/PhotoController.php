@@ -4,6 +4,7 @@ namespace PyroMans\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
+use PyroMans\Auxillary\FileUpload;
 use PyroMans\Http\Requests;
 use PyroMans\Http\Controllers\ControllerBase;
 use PyroMans\Photo;
@@ -29,32 +30,28 @@ class PhotoController extends ControllerBase
     public function postCreate(Request $request)
     {
         $this->validate_input($request);
-        $photo = $request->file('photo');
 
-        if($request->hasFile('photo'))
-        {
-            $folder = 'upload/photos/' . uniqid('photocat');
-            $fileName = time() . '.' . $photo->getClientOriginalExtension();
-            $thumbName = time() . '.' . $photo->getClientOriginalExtension();
-            if (!file_exists( public_path() . '/' . $folder .'/thumbs/')) {
-                mkdir(public_path() . '/' . $folder .'/thumbs/', 0777, true);
-            }
-            $thumbUrl = $folder .'/thumbs/' . $thumbName;
-            $thumb = Image::make($photo)->fit(350,250);
-            $thumb->save(public_path() . '/' . $thumbUrl);
-            $photo->move(public_path() . '/' . $folder , $fileName );
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+            $folder = 'photos/' . uniqid('photocat');
+            $fileInfo = FileUpload::uploadAndMakeThumb(
+                $photo,
+                $folder,
+                'photocat',
+                350,
+                250
+            );
         }
-        if (
-            PhotoCategory::create([
-                'name' => $request->input('name'),
-                'slug' => Translit::make_lat($request->input('name')),
-                'picture' => isset($fileName) ? $fileName : '',
-                'folder' => isset($folder) ? $folder : ''
-            ])
-        )
-        {
+        if (PhotoCategory::create([
+            'name' => $request->input('name'),
+            'slug' => Translit::make_lat($request->input('name')),
+            'folder' => isset($fileInfo) ? $fileInfo['folder'] : '',
+            'picture' => isset($fileInfo) ? $fileInfo['fileUrl'] : '',
+            'thumb' => isset($fileInfo) ? $fileInfo['thumbUrl'] : '',
+        ])) {
             return redirect()->route('admin.photos')->with('success', 'Каталог збережено');
         }
+
         return redirect()->back()->with('error', 'Не можу зберегти каталог');
     }
 
@@ -72,24 +69,30 @@ class PhotoController extends ControllerBase
             'photo' => 'mimes:jpeg,bmp,png'
         ]);
         $photocat = PhotoCategory::where('slug', $slug)->first();
-        $photo = $request->file('photo');
+
         if($request->hasFile('photo'))
         {
+            $photo = $request->file('photo');
             $folder = $photocat->folder;
-            $fileName = time() . '.' . $photo->getClientOriginalExtension();
-            File::delete(public_path() . '/' . $photocat->photoUrl(), public_path(). '/' . $photocat->thumbUrl());
-            $thumbName = time() . '.' . $photo->getClientOriginalExtension();
-            $thumb = Image::make($photo)->fit(350,250);
-            $thumb->save(public_path() . '/'. $folder .'/thumbs/' . $thumbName);
-            $photo->move(public_path() . '/' . $folder , $fileName );
+            FileUpload::deleteImageAndThumb($photocat->picture, $photocat->thumb);
+            $fileInfo = FileUpload::uploadAndMakeThumb(
+                $photo,
+                $folder,
+                'photocat',
+                350,
+                250
+            );
+            if ($fileInfo) {
+                $photocat->picture = $fileInfo['fileUrl'];
+                $photocat->thumb = $fileInfo['thumbUrl'];
+            }
         }
         if($photocat->name != $request->input('name'))
         {
             $photocat->name = $request->input('name');
             $photocat->slug = Translit::make_lat($request->input('name'));
         }
-        $photocat->picture = isset($fileName) ? $fileName : $photocat->picture;
-        $photocat->folder = isset($folder) ? $folder : $photocat->folder;
+
         if($photocat->save())
         {
             return redirect()->route('admin.photos')->with('success', 'Каталог збережено');
@@ -112,18 +115,29 @@ class PhotoController extends ControllerBase
                 return redirect()->route('admin.photos')->with('error', 'Файли повинні бути у форматах *.jpg, *.bmp, *.png');
             }
             $folder = $photocat->folder;
+            $photoArray = [];
             foreach($request->file('photos') as $photo)
             {
-                $fileName =  uniqid('photo') . '.' . $photo->getClientOriginalExtension();
-                $thumb = Image::make($photo)->fit(200,150);
-                $thumb->save(public_path() . '/'. $folder .'/thumbs/' . $fileName);
-                $photo->move(public_path() . '/' . $folder , $fileName );
-
-                Photo::create([
-                    'filename' => $fileName,
-                    'categoryId' => $request->input('id')
-                ]);
+                $fileInfo = FileUpload::uploadAndMakeThumb(
+                    $photo,
+                    $folder,
+                    'photo',
+                    200,
+                    150,
+                    true
+                );
+                if ($fileInfo) {
+                    array_push($photoArray, [
+                        'id' => null,
+                        'photo' => $fileInfo['fileUrl'],
+                        'thumb' => $fileInfo['thumbUrl'],
+                        'sortOrder' => 0,
+                        'categoryId' => $photocat->id
+                    ]);
+                }
             }
+            Photo::insert($photoArray);
+
             return redirect()
                    ->route('admin.photos.edit', ['slug' => $photocat->slug])
                    ->with('success', 'Фото завантажено');

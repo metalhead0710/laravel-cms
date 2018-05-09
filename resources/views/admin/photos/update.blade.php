@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-10 col-md-offset-2">
-                <img src="{{ asset($photocat->thumbUrl())}}" alt=""/>
+                <img src="{{ asset($photocat->thumb)}}" alt=""/>
             </div>
         </div>
         <div class="form-group{{ $errors->has('photo') ? ' has-error' : ''}}">

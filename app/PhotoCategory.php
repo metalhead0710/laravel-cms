@@ -10,17 +10,11 @@ class PhotoCategory extends Model
     protected $fillable = [
         'name',
         'slug',
+        'folder',
         'picture',
-        'folder'
+        'thumb'
     ];
-    public function photoUrl()
-    {
-        return $this->folder . '/'. $this->picture;
-    }
-    public function thumbUrl()
-    {
-        return $this->folder . '/thumbs/'. $this->picture;
-    }
+
     public function photos()
     {
         return $this->hasMany('PyroMans\Photo', 'categoryId', 'id');

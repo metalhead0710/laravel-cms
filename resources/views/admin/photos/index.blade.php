@@ -40,7 +40,7 @@
                 </td>
                 <td class="cell-middle">
                     @if (!empty($photocat->picture))
-                        <img src="{{ asset($photocat->thumbUrl()) }}" width="100" class="img-responsive" />
+                        <img src="{{ asset($photocat->thumb) }}" width="100" class="img-responsive" />
                     @else
                         <img src="http://placehold.it/100x70?text=:(" class="img-responsive" />
                     @endif

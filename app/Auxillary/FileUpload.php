@@ -48,12 +48,18 @@ class FileUpload
      * @param string  $prefix
      * @param int     $width
      * @param int     $height
+     * @param bool    $strictFolder
      *
      * @return array|bool
      */
-    public static function uploadAndMakeThumb(UploadedFile $file, string $folderName, string $prefix, int $width, int $height)
+    public static function uploadAndMakeThumb(UploadedFile $file, string $folderName, string $prefix, int $width, int $height, $strictFolder = false)
     {
-        $folder = self::FOLDER . $folderName;
+        if (!$strictFolder) {
+            $folder = self::FOLDER . $folderName;
+        } else {
+            $folder = $folderName;
+        }
+
         $fileName = uniqid($prefix) . '.' . $file->getClientOriginalExtension();
         if (!file_exists( public_path() . '/' . $folder )) {
             mkdir(public_path() . '/' . $folder, 0777, true);
@@ -64,7 +70,6 @@ class FileUpload
         $thumbUrl = $folder .'/thumbs/' . $fileName;
         $thumb = Image::make($file)->fit($width, $height);
         $thumb->save(public_path() . '/' . $thumbUrl);
-
 
         $file->move(public_path() . '/' . $folder , $fileName );
         if (file_exists( public_path() . '/' . $folder . '/' . $fileName)) {

@@ -16,8 +16,9 @@ class AddPhotoCatalog extends Migration
             $table->increments('id');
 	        $table->string('name', 60);
             $table->string('slug', 60);
-            $table->string('picture', 60);
-            $table->string('thumb', 60);
+            $table->string('folder');
+            $table->string('picture');
+            $table->string('thumb');
             $table->timestamps();
         });
     }

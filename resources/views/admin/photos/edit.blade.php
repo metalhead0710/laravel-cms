@@ -32,7 +32,7 @@
                 @foreach ($photocat->photos as $photo)
                     <div class="box-item" data-id="{{ $photo->id }}">
                         <input type="checkbox" name="pic[]" value="{{ $photo->id }}" class="check" />
-                        <img src="{{ asset($photocat->folder . '/thumbs/' . $photo->filename) }}" class="">
+                        <img src="{{ asset($photo->thumb) }}" class="">
                         <div class="delete-link-wrapper">
                             <a href="#modal" class="delete-link text-danger" data-toggle="modal" data-deletelink = "{{ route('admin.photos.deleteOne' , ['categoryId' => $photocat->id, 'id'=>$photo->id]) }}">
                                 <i class="fa fa-times"></i>
