@@ -1,7 +1,7 @@
 !(function($) {
   'use strict';
 
-  var Delete = {
+  var CommonIndexFunctions = {
     options: {},
 
     //main function
@@ -20,15 +20,22 @@
         var url = link.data('link');
         $('.delete-confirm').attr('href', url);
       });
+      $('input[type=file]').filestyle({
+        text : 'Виберіть файл',
+        badge: true,
+        buttonBefore : true,
+        btnClass : 'btn-primary',
+        htmlIcon : '<i class="fa fa-file-image-o"></i> '
+      });
     }
   };
 
-  App.Page.Delete = function(options, root) {
+  App.Page.CommonIndexFunctions = function(options, root) {
     root = root || $('body');
     root = $(root)[0];
-    if (!$.data(root, '_Delete')) {
-      $.data(root, '_Delete', Object.create(Delete).init(options, root));
+    if (!$.data(root, '_CommonIndexFunctions')) {
+      $.data(root, '_CommonIndexFunctions', Object.create(CommonIndexFunctions).init(options, root));
     }
-    return $.data(root, '_Delete');
+    return $.data(root, '_CommonIndexFunctions');
   };
 })(jQuery);

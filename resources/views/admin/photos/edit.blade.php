@@ -23,6 +23,10 @@
         <button class="btn btn-danger pull-right submit-btn" type="submit" style="display:none">
             Видалити вибрані фото
         </button>
+        <a href="#" class="btn btn-success save-order" style="display:none">
+            <i class="fa fa-sort"></i>
+            Зберегти порядок
+        </a>
     </div>
     <div class="clearfix"></div>
     <div class="mg-tp-50 mg-bt-50">
@@ -95,5 +99,12 @@
 @stop
 @section('Scripts')
 <script src="{{ asset('assets/components/b-file-input/bootstrap-filestyle.min.js') }}"></script>
-<script src="{{ asset('assets/js/pages/photos/photo-edit.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/components/jquery-ui/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('assets/js/pages/admin/photos/edit.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+    App.Page.PhotoList({
+      url: "{{ route('admin.photos.sortout') }}",
+      token: "{{csrf_token()}}"
+    });
+</script>
 @endsection

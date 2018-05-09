@@ -119,24 +119,10 @@
 @stop
 @section('Scripts')
 <script src="{{ asset('assets/components/b-file-input/bootstrap-filestyle.min.js') }}"></script>
+<script src="{{ asset('assets/js/pages/admin/common-index-functions/list.js') }}"></script>
+<script src="{{ asset('assets/js/pages/admin/photos/list.js') }}"></script>
 <script>
-    $(function() {
-        $('.delete').on("click", function () {
-            var link = $(this).closest("a.delete");
-            var	url = link.data("link");
-            $('.delete-confirm').attr("href", url);
-        });
-        $('.add-photos').on("click", function () {
-            var id = $(this).data('id');
-            $('.add-photo-form .photocat-id').attr('value', id);
-        });
-        $('input[type=file]').filestyle({
-            text : 'Виберіть файл(и)',
-            badge: true,
-            buttonBefore : true,
-            btnClass : 'btn-primary',
-            htmlIcon : '<i class="fa fa-file-image-o"></i> '
-        });
-    });
+    App.Page.CommonIndexFunctions();
+    App.Page.Photos();
 </script>
 @endsection

@@ -183,6 +183,10 @@ Route::group(['prefix' => 'dominator', 'middleware' => 'PyroMans\Http\Middleware
             'uses' => '\PyroMans\Http\Controllers\Admin\PhotoController@deleteOne',
             'as' => 'admin.photos.deleteOne'
         ]);
+        Route::post('/sort-out', [
+            'uses' => '\PyroMans\Http\Controllers\Admin\PhotoController@sortOut',
+            'as' => 'admin.photos.sortout'
+        ]);
 
         Route::get('/delete/{id}', [
             'uses' => '\PyroMans\Http\Controllers\Admin\PhotoController@delete',

@@ -55,16 +55,11 @@
 @stop
 @section('Scripts')
 <script src="{{ asset('assets/components/b-file-input/bootstrap-filestyle.min.js') }}"></script>
+<script src="{{ asset('assets/js/pages/admin/common-index-functions/list.js') }}"></script>
 <script src="{{ asset('assets/components/ckeditor/ckeditor.js') }}"></script>
 <script type="text/javascript">
     $(function() {
-        $('input[type=file]').filestyle({
-            text : 'Виберіть файл',
-            badge: true,
-            buttonBefore : true,
-            btnClass : 'btn-primary',
-            htmlIcon : '<i class="fa fa-file-image-o"></i> '
-        });
+        App.Page.CommonIndexFunctions();
         CKEDITOR.replace('text');
     })
 </script>

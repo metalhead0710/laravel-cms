@@ -111,10 +111,10 @@
 
 @stop
 @section('Scripts')
-<script src="{{ asset('assets/js/pages/admin/delete-item/list.js') }}"></script>
+<script src="{{ asset('assets/js/pages/admin/common-index-functions/list.js') }}"></script>
 <script type="text/javascript">
     $(function() {
-        App.Page.Delete();
+        App.Page.CommonIndexFunctions();
     });
 </script>
 @endsection

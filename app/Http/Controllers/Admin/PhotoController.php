@@ -4,15 +4,15 @@ namespace PyroMans\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
-use PyroMans\Auxillary\FileUpload;
-use PyroMans\Http\Requests;
-use PyroMans\Http\Controllers\ControllerBase;
-use PyroMans\Photo;
-use PyroMans\PhotoCategory;
+use DB;
 use File;
 use Image;
-use PyroMans\Auxillary\Translit;
 use Validator;
+use PyroMans\Photo;
+use PyroMans\PhotoCategory;
+use PyroMans\Auxillary\Translit;
+use PyroMans\Auxillary\FileUpload;
+use PyroMans\Http\Controllers\ControllerBase;
 
 class PhotoController extends ControllerBase
 {
@@ -53,6 +53,18 @@ class PhotoController extends ControllerBase
         }
 
         return redirect()->back()->with('error', 'Не можу зберегти каталог');
+    }
+
+    public function sortOut(Request $request)
+    {
+        $ids = $request->input('ids');
+        foreach ($ids as $row) {
+            DB::table('photos')
+                ->where('id', $row['id'])
+                ->update(['sortOrder' => $row['sort']]);
+        }
+
+        return response()->json(['status' => 'success']);
     }
 
     public function update($slug)
@@ -147,7 +159,14 @@ class PhotoController extends ControllerBase
 
     public function edit($slug)
     {
-        $photocat = PhotoCategory::with('photos')->where('slug', $slug)->orderBy('created_at','DESC')->first();
+        $photocat = PhotoCategory::with([
+                'photos' => function($query) {
+                    $query->orderBy('sortOrder');
+                }
+            ])
+            ->where('slug', $slug)
+            ->orderBy('created_at','DESC')
+            ->first();
         return view('admin.photos.edit', ['photocat' => $photocat]);
     }
 
@@ -159,10 +178,8 @@ class PhotoController extends ControllerBase
         {
             return redirect()->route('admin.photo')->with('error', 'Немає такої фотки.');
         }
-        File::delete(   public_path() . '/' . $photocat->folder . '/' . $photo->filename,
-                        public_path() . '/' . $photocat->folder . '/thumbs/' . $photo->filename
-                    );
-        if($photo->delete())
+        $deleteFiles = FileUpload::deleteImageAndThumb($photo->photo, $photo->thumb);
+        if($deleteFiles && $photo->delete())
         {
             return redirect()
                 ->route('admin.photos.edit', ['slug' => $photocat->slug])
@@ -179,10 +196,8 @@ class PhotoController extends ControllerBase
         foreach($checked as $value)
         {
             $photo = Photo::find($value);
-            File::delete(   public_path() . '/' . $photocat->folder . '/' . $photo->filename,
-                            public_path() . '/' . $photocat->folder . '/thumbs/' . $photo->filename
-                        );
-            if ($photo->delete())
+            $deleteFiles = FileUpload::deleteImageAndThumb($photo->photo, $photo->thumb);
+            if ($deleteFiles && $photo->delete())
             {
                 array_push($res, true);
             }
