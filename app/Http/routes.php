@@ -278,6 +278,28 @@ Route::group(['prefix' => 'dominator', 'middleware' => 'PyroMans\Http\Middleware
     });
 
     /*
+     * Socials
+     */
+    Route::group(['prefix' => '/socials'], function () {
+        Route::get('/', [
+            'uses' => '\PyroMans\Http\Controllers\Admin\SocialsController@index',
+            'as' => 'admin.socials'
+        ]);
+        Route::post('/edit', [
+            'uses' => '\PyroMans\Http\Controllers\Admin\SocialsController@edit',
+            'as' => 'admin.socials.edit'
+        ]);
+        Route::get('/getOne/{id}', [
+            'uses' => '\PyroMans\Http\Controllers\Admin\SocialsController@getOne',
+            'as' => 'admin.socials.getOne'
+        ]);
+        Route::get('/delete/{id}', [
+            'uses' => '\PyroMans\Http\Controllers\Admin\SocialsController@delete',
+            'as' => 'admin.socials.delete'
+        ]);
+    });
+
+    /*
      * Popup Message
      */
     Route::get('/getPopupMsg/{res}', [
