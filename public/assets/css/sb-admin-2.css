@@ -677,3 +677,11 @@ table.dataTable thead .sorting:after {
     border-radius: 0;
 }
 
+.sort-popup {
+    position: absolute;
+    width: 300px;
+    top: 33%;
+    left: 50%;
+    z-index: 1;
+    margin-left: -150px;
+}

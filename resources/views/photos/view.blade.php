@@ -15,8 +15,8 @@
             </h4>
             @endif
             @foreach($photocat->photos as $photo)
-                <a class="photo-item" href="{{ asset($photocat->folder . '/' . $photo->filename) }}">
-                    <img class="img-responsive" src="{{ asset($photocat->folder . '/thumbs/' . $photo->filename) }}" alt="" />
+                <a class="photo-item" href="{{ asset($photo->photo) }}">
+                    <img class="img-responsive" src="{{ asset($photo->thumb) }}" alt="" />
                 </a>
             @endforeach
         </div>

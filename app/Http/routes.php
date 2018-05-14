@@ -276,4 +276,12 @@ Route::group(['prefix' => 'dominator', 'middleware' => 'PyroMans\Http\Middleware
             'as' => 'admin.settings.index'
         ]);
     });
+
+    /*
+     * Popup Message
+     */
+    Route::get('/getPopupMsg/{res}', [
+        'uses' => '\PyroMans\Http\Controllers\Admin\PopupController@index',
+        'as' => 'admin.popup'
+    ]);
 });

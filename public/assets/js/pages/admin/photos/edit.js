@@ -15,6 +15,8 @@
 
       this.saveOrderButton = $('.save-order');
       this.photoItem = $('.box-item');
+      this.deleteLink = this.root.find('delete-link');
+      this.sortPopup = this.root.find('sort-popup');
 
       // Bind handlers
       this.bindHandlers();
@@ -28,15 +30,15 @@
         btnClass : 'btn-primary',
         htmlIcon : '<i class="fa fa-file-image-o"></i> '
       });
-      $('.box-item').hover(function() {
+      this.photoItem.hover(function() {
         var id = $(this).data("id");
         $('div[data-id='+id+'] div').slideDown(200);
       });
-      $('.box-item').mouseleave(function() {
+      this.photoItem.mouseleave(function() {
         var id = $(this).data("id");
         $('div[data-id='+id+'] div').slideUp(200);
       });
-      $('.delete-link').on("click", function () {
+      this.deleteLink.on("click", function () {
         var	url = $(this).data("deletelink");
         $('.delete-one').attr("href", url);
       });
@@ -103,11 +105,30 @@
         data: {ids: data, _token: token},
         dataType: 'json',
         success: function() {
-          alert('Відсортовано!');
+          self.getFlashMsg(1);
           self.hideSaveButton();
         },
         error: function() {
-          alert('Помилка сервера. Спробуйте папіжже');
+          self.getFlashMsg(0);
+        }
+      });
+    },
+    getFlashMsg: function(res) {
+      var self = this,
+          data = {};
+      $.ajax({
+        type: 'get',
+        url: '/dominator/getPopupMsg/' + res,
+        data: data,
+        dataType: 'html',
+        success: function(data) {
+          $('.sort-popup').html(data);
+          $('.sort-popup').fadeTo(1000, 500).slideUp(500, function(){
+            $('.sort-popup').slideUp(500);
+          });
+        },
+        error: function() {
+          console.log("Сталася фігня... соррі.");
         }
       });
     }

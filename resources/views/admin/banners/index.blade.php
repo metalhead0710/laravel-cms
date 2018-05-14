@@ -9,6 +9,7 @@
         </div>
     </section>
     @include('layouts._partials.feedback')
+    <div class="sort-popup"></div>
     <section class="content">
         <div class="actions pull-right mg-bt-15">
             <div class="btn-group">

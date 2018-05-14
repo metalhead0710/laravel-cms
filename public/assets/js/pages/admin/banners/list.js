@@ -91,11 +91,30 @@
         data: {ids: data, _token: token},
         dataType: 'json',
         success: function() {
-          alert('Відсортовано!');
+          self.getFlashMsg(1);
           self.hideSaveButton();
         },
         error: function() {
-          alert('Помилка сервера. Спробуйте папіжже');
+          self.getFlashMsg(0);
+        }
+      });
+    },
+    getFlashMsg: function(res) {
+      var self = this,
+          data = {};
+      $.ajax({
+        type: 'get',
+        url: '/dominator/getPopupMsg/' + res,
+        data: data,
+        dataType: 'html',
+        success: function(data) {
+          $('.sort-popup').html(data);
+          $('.sort-popup').fadeTo(1000, 500).slideUp(500, function(){
+            $('.sort-popup').slideUp(500);
+          });
+        },
+        error: function() {
+          console.log("Сталася фігня... соррі.");
         }
       });
     }

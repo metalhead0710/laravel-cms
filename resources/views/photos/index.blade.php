@@ -15,7 +15,7 @@
                         <h4 class="category-name">{{ $photocat->name }}</h4>
                     </div>
                     @if ($photocat->picture != '')
-                        <img src="{{ asset($photocat->thumbUrl()) }}" alt="..." class=""> </a>
+                        <img src="{{ asset($photocat->thumb) }}" alt="..." class=""> </a>
                     @else
                         <img src="http://www.placehold.it/350x250?text=:(" alt="..." class=""> </a>
                     @endif

@@ -9,8 +9,8 @@
     </div>
 </section>
 @include('layouts._partials.feedback')
+<div class="sort-popup"></div>
 <section>
-
     <div class="btn-group pull-right">
         <a class="btn btn-default" href="{{ route('admin.photos')}}">
             <i class="fa fa-long-arrow-left"></i>
