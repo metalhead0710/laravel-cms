@@ -289,7 +289,7 @@ Route::group(['prefix' => 'dominator', 'middleware' => 'PyroMans\Http\Middleware
             'uses' => '\PyroMans\Http\Controllers\Admin\SocialsController@edit',
             'as' => 'admin.socials.edit'
         ]);
-        Route::get('/getOne/{id}', [
+        Route::get('/getOne/{id?}', [
             'uses' => '\PyroMans\Http\Controllers\Admin\SocialsController@getOne',
             'as' => 'admin.socials.getOne'
         ]);

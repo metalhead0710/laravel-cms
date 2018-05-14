@@ -41,7 +41,7 @@
                     @endif
                     @foreach($socials as $social)
                         <tr data-id="{{ $social->id }}">
-                            <td>
+                            <td width="175">
                                 <div class="dropdown">
                                     <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                         Дії
@@ -88,7 +88,7 @@
                 <div class="modal-header borderless">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i>
                     </button>
-                    <h4 class="modal-title">Видалити банер?</h4>
+                    <h4 class="modal-title">Видалити соціалку?</h4>
                 </div>
                 <div class="modal-body">
                     <a class="btn btn-danger delete-confirm">
@@ -117,8 +117,8 @@
                                     <label for="name" class="control-label col-md-2">Назва</label>
                                     <div class="col-md-10">
                                         {{ csrf_field() }}
-                                        <input type="hidden" name="id" class="" />
-                                        <input type="text" class="form-control" name="name" placeholder="Назва" />
+                                        <input type="hidden" name="id" class="id" />
+                                        <input type="text" class="form-control name" name="name" placeholder="Назва" />
                                         @if($errors->has('name'))
                                             <span class="help-block">{{$errors->first('name')}}</span>
                                         @endif
@@ -127,6 +127,7 @@
                                 <div class="form-group{{ $errors->has('icon') ? ' has-error' : ''}}">
                                     <label for="file" class="control-label col-md-2">Іконка</label>
                                     <div class="col-md-10">
+                                        <img class="icon" style="display:none" />
                                         <input type="file" name="icon" title="Вибрати файл">
                                         @if($errors->has('icon'))
                                             <span class="help-block">{{$errors->first('icon')}}</span>
@@ -136,7 +137,7 @@
                                 <div class="form-group{{ $errors->has('url') ? ' has-error' : ''}}">
                                     <label for="url" class="control-label col-md-2">Посилання</label>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control" name="url" />
+                                        <input type="text" class="form-control url" name="url" />
                                         @if($errors->has('url'))
                                             <span class="help-block">{{$errors->first('url')}}</span>
                                         @endif
@@ -163,31 +164,11 @@
 @stop
 @section('Scripts')
     <script src="{{ asset('assets/components/b-file-input/bootstrap-filestyle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/admin/socials/list.js') }}"></script>
+
     <script type="text/javascript">
-      $(function() {
-        $('.edit-social').on('click', function(e) {
-          var row = $(this).closest('tr'),
-              id = row.data('id'),
-              social = getSocial(id);
-
-
-
-          e.preventDefault();
-        });
-        var getSocial = function(id) {
-          var data = {};
-          $.ajax({
-            type: 'get',
-            url: '/dominator/socials/getOne/' + id,
-            data: data,
-            success: function(data) {
-               return data;
-            },
-            error: function() {
-              console.log('not zbs');
-            }
-          });
-        }
+      App.Page.Socials({
+        url: '{{ route('admin.socials.getOne') }}'
       });
     </script>
 @endsection

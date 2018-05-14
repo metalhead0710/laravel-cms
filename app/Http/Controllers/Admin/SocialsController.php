@@ -19,8 +19,8 @@ class SocialsController extends ControllerBase
 
     public function edit(Request $request)
     {
-        $this->validateInput($request);
         if (!intval($request->input('id'))) {
+            $this->validateInput($request);
             if($request->hasFile('icon')) {
                 $icon = $request->file('icon');
                 $fileInfo = FileUpload::uploadAndMakeThumb(
@@ -45,12 +45,13 @@ class SocialsController extends ControllerBase
             }
             return redirect()->route('admin.socials')->with('error', 'Ви не вибрали зображення. Ви довбойоб');
         } else {
-            $id = !intval($request->input('id'));
+            $id = intval($request->input('id'));
             $social = Social::find($id);
-            $this->validateInput($request);
+            $this->validateInputUpd($request);
             $social->name = $request->input('name');
             $social->url = $request->input('url');
             if ($request->hasFile('icon')) {
+                FileUpload::deleteImageAndThumb($social->icon, $social->thumb);
                 $icon = $request->file('icon');
                 $fileInfo = FileUpload::uploadAndMakeThumb(
                     $icon,
@@ -74,9 +75,23 @@ class SocialsController extends ControllerBase
     public function getOne(int $id) {
         $social = Social::find($id);
         if (!empty($social)) {
-            return json_encode($social);
+            return $social;
         }
         return false;
+    }
+
+    public function delete($id)
+    {
+        $social = Social::find($id);
+        if (empty($social)) {
+            return redirect()->route('admin.socials')->with('error', 'Немає такої соціалки. Ідіть в жопу');
+        } else {
+            FileUpload::deleteImageAndThumb($social->icon, $social->thumb);
+            if ($social->delete()) {
+                return redirect()->route('admin.socials')->with('success', 'Соціалку видалено');
+            }
+            return redirect()->route('admin.socials')->with('error', 'Трапилась хуйня на сервері. Спробуйте пізніше.');
+        }
     }
 
     private function validateInput(Request $request)
@@ -84,6 +99,14 @@ class SocialsController extends ControllerBase
         $this->validate($request, [
             'name' => 'required|max:255',
             'icon' => 'required|mimes:jpeg,bmp,png',
+            'url' => 'required|max:255'
+        ]);
+    }
+
+    private function validateInputUpd(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:255',
             'url' => 'required|max:255'
         ]);
     }

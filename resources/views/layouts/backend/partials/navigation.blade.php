@@ -38,6 +38,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('admin.socials') }}">
+                    <i class="fa fa-comment"></i>
+                    <span>Соціальні мережі</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('admin.messages') }}">
                     <i class="fa fa-envelope-o"></i>
                     <span>Повідомлення</span>
