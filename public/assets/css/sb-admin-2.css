@@ -654,6 +654,10 @@ table.dataTable thead .sorting:after {
     margin-bottom: 20px;
 }
 
+.mg-bt-15 {
+    margin-bottom: 15px;
+}
+
 .table-hover > tbody > tr:hover {
     background: #6d9fb7 !important;
 }
