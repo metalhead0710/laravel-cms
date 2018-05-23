@@ -139,7 +139,10 @@ return [
         'mainTitle' => 'Заголовок сайту',
         'subTitle' => 'Слоган',
         'meta_keywords' => 'Ключові слова',
-        'meta_description' => 'Опис сайту'
+        'meta_description' => 'Опис сайту',
+        'oldPassword' => 'старий пароль',
+        'newPassword' => 'новий пароль',
+        'newPasswordRepeat' => 'повторення паролю'
 	),
 
 ];

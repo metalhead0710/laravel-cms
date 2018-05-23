@@ -12,38 +12,41 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable, CanResetPassword;
-        
+
     protected $table = 'users';
     protected $fillable = [
-    	'username', 
-    	'email', 
-    	'firstName',
-    	'lastName',
-    	'password'
+        'username',
+        'email',
+        'firstName',
+        'lastName',
+        'password',
+        'photo',
+        'thumb'
     ];
     protected $hidden = [
-    	'password', 
-    	'remember_token'
+        'password',
+        'remember_token',
     ];
-    
+
     public function getName()
     {
-		if ($this->first_name && $this->last_name)
-		{
-			return "{$this->first_name} {$this->last_name}";
-		}
-		if ($this->first_name)
-		{
-			return $this->first_name;
-		}
-		return null;
-	}
-	public function getNameOrUsername()
-	{
-		return $this->getName() ?: $this->username;
-	}
-	public function getFirstNameOrUsername()
-	{
-		return $this->first_name ?: $this->username;
-	}
+        if ($this->firstName && $this->lastName) {
+            return "{$this->firstName} {$this->lastName}";
+        }
+        if ($this->firstName) {
+            return $this->firstName;
+        }
+
+        return null;
+    }
+
+    public function getNameOrUsername()
+    {
+        return $this->getName() ? : $this->username;
+    }
+
+    public function getFirstNameOrUsername()
+    {
+        return $this->firstName ? : $this->username;
+    }
 }

@@ -91,8 +91,11 @@ class FileUpload
      *
      * @return bool
      */
-    public static function deleteImageAndThumb(string $file, string $thumb) : bool
+    public static function deleteImageAndThumb(string $file = null, string $thumb = null) : bool
     {
+        if (!isset($file) || !isset($thumb)) {
+            return false;
+        }
         if (file_exists($file) && file_exists($thumb)) {
             File::delete( public_path() . "/$file",
                           public_path() . "/$thumb"

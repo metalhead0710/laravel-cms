@@ -306,4 +306,22 @@ Route::group(['prefix' => 'dominator', 'middleware' => 'PyroMans\Http\Middleware
         'uses' => '\PyroMans\Http\Controllers\Admin\PopupController@index',
         'as' => 'admin.popup'
     ]);
+
+    /*
+     * User Actions
+     */
+    Route::get('/user', [
+        'uses' => '\PyroMans\Http\Controllers\Admin\UserController@edit',
+        'as' => 'admin.user'
+    ]);
+    Route::post('/user', [
+        'uses' => '\PyroMans\Http\Controllers\Admin\UserController@postEdit'
+    ]);
+    Route::get('/user/change-password', [
+        'uses' => '\PyroMans\Http\Controllers\Admin\UserController@changePassword',
+        'as' => 'admin.user.changePass'
+    ]);
+    Route::post('/user/change-password', [
+        'uses' => '\PyroMans\Http\Controllers\Admin\UserController@postChangePassword'
+    ]);
 });
