@@ -29,7 +29,18 @@ Route::get('/auth/logout', [
 	'uses' => '\PyroMans\Http\Controllers\Auth\AuthController@getLogout',
 	'as' => 'auth.logout'
 ]);
-
+Route::get('/auth/check-email', [
+    'uses' => '\PyroMans\Http\Controllers\Auth\AuthController@checkEmail',
+    'as' => 'auth.checkEmail'
+]);
+Route::post('/auth/check-email', [
+    'uses' => '\PyroMans\Http\Controllers\Auth\AuthController@postCheckEmail',
+    'as' => 'auth.checkEmail'
+]);
+Route::get('/auth/reset-password/{token}', [
+    'uses' => '\PyroMans\Http\Controllers\Auth\AuthController@resetPassword',
+    'as' => 'auth.resetPassword'
+]);
 
 /*
 |--------------------------------------------------------------------------

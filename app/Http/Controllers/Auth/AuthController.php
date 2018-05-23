@@ -1,14 +1,24 @@
 <?php
 
 namespace PyroMans\Http\Controllers\Auth;
-use Illuminate\Http\Request;
-use PyroMans\User;
-use PyroMans\Http\Requests;
-use PyroMans\Http\Controllers\Controller;
+
 use Auth;
+use PyroMans\Contact;
+use PyroMans\PasswordReset;
+use PyroMans\User;
+use Illuminate\Http\Request;
+use PyroMans\Http\Controllers\Controller;
+
 
 class AuthController extends Controller
 {
+    use SendsPasswordResetEmails;
+
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
     public function getRegister()
     {
         return view('auth.register');
@@ -58,4 +68,58 @@ class AuthController extends Controller
 		Auth::logout();
 		return redirect()->route('home');
 	}
+
+	public function checkEmail()
+    {
+        //TODO: Make email verification form
+    }
+
+	public function postCheckEmail(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email|max:255'
+        ]);
+
+        $user = User::where('email', $request->input('email'))->get();
+
+        if(count($user) > 0) {
+            $token = $this->generateToken();
+            PasswordReset::create([
+                'email' => $request->input('email'),
+                'token' => $token
+            ]);
+
+            $data = [
+                'name' => User::getNameOrUsername(),
+                'url' => route('auth.resetPassword', ['token' => $token]),
+                'toEmail' => $userEmail = $request->input('email')
+            ];
+            Mail::send('auth.passwords.email', ['data' => $data], function($message) use ($data) {
+                $email = Contact::first()->email;
+
+                $message->from($email);
+                $message->to($data['toEmail'])->subject('Скинути пароль для продовження дамінациї');
+            });
+            return redirect()
+                ->route('auth.checkEmail')
+                ->with('success', 'Перевіряй пошту, там лінк на відновлення паролю досі прийшов, башка ти дирява!');
+        }
+
+        return redirect()->route('auth.check-email')->with('error', 'Іди нахуй, такого мила нема');
+    }
+
+    public function checkToken(string $token)
+    {
+        //Todo: handle this shiit
+    }
+
+    public function resetPassword()
+    {
+        //TODO: reset da fucking password
+    }
+
+    private function generateToken()
+    {
+        return bcrypt(str_random(35));
+    }
 }
