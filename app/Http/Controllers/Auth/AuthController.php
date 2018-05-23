@@ -4,7 +4,6 @@ namespace PyroMans\Http\Controllers\Auth;
 
 use Auth;
 use PyroMans\Contact;
-use PyroMans\PasswordReset;
 use PyroMans\User;
 use Illuminate\Http\Request;
 use PyroMans\Http\Controllers\Controller;
@@ -12,13 +11,6 @@ use PyroMans\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
-    use SendsPasswordResetEmails;
-
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
     public function getRegister()
     {
         return view('auth.register');
