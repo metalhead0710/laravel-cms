@@ -41,6 +41,9 @@ Route::get('/auth/reset-password/{token}', [
     'uses' => '\PyroMans\Http\Controllers\Auth\AuthController@resetPassword',
     'as' => 'auth.resetPassword'
 ]);
+Route::post('/auth/reset-password/{token}', [
+    'uses' => '\PyroMans\Http\Controllers\Auth\AuthController@postResetPassword'
+]);
 
 /*
 |--------------------------------------------------------------------------

@@ -11,4 +11,14 @@ class PasswordReset extends Model
         'email',
         'token'
     ];
+
+    public function setUpdatedAt($value)
+    {
+        //Override standard Laravel update_at
+    }
+
+    public function getUpdatedAtColumn()
+    {
+        //Override standard Laravel update_at
+    }
 }

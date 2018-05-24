@@ -3,8 +3,11 @@
 namespace PyroMans\Http\Controllers\Auth;
 
 use Auth;
-use PyroMans\Contact;
+use Carbon\Carbon;
+use Mail;
 use PyroMans\User;
+use PyroMans\Contact;
+use PyroMans\PasswordReset;
 use Illuminate\Http\Request;
 use PyroMans\Http\Controllers\Controller;
 
@@ -63,7 +66,7 @@ class AuthController extends Controller
 
 	public function checkEmail()
     {
-        //TODO: Make email verification form
+        return view('auth.check-email');
     }
 
 	public function postCheckEmail(Request $request)
@@ -72,7 +75,7 @@ class AuthController extends Controller
             'email' => 'required|email|max:255'
         ]);
 
-        $user = User::where('email', $request->input('email'))->get();
+        $user = User::where('email', $request->input('email'))->get()->first();
 
         if(count($user) > 0) {
             $token = $this->generateToken();
@@ -82,36 +85,72 @@ class AuthController extends Controller
             ]);
 
             $data = [
-                'name' => User::getNameOrUsername(),
+                'name' => $user->getNameOrUsername(),
                 'url' => route('auth.resetPassword', ['token' => $token]),
                 'toEmail' => $userEmail = $request->input('email')
             ];
             Mail::send('auth.passwords.email', ['data' => $data], function($message) use ($data) {
-                $email = Contact::first()->email;
+                //TODO: Make something with this shit
+                /*$email = Contact::first()->email;
 
-                $message->from($email);
+                $message->from($email);*/
                 $message->to($data['toEmail'])->subject('Скинути пароль для продовження дамінациї');
             });
             return redirect()
-                ->route('auth.checkEmail')
+                ->route('auth.login')
                 ->with('success', 'Перевіряй пошту, там лінк на відновлення паролю досі прийшов, башка ти дирява!');
         }
 
-        return redirect()->route('auth.check-email')->with('error', 'Іди нахуй, такого мила нема');
+        return redirect()->route('auth.checkEmail')->with('error', 'Іди нахуй, такого мила нема');
     }
 
-    public function checkToken(string $token)
+    public function resetPassword(string $token)
     {
-        //Todo: handle this shiit
+        $now = Carbon::now()->subMinutes(10);
+        $pr = PasswordReset::where([
+                ['token', '=', $token],
+                ['created_at', '>', $now]
+            ])
+            ->first();
+        if (count($pr) > 0) {
+            return view ('auth.password-reset', ['token' => $token]);
+        } else {
+            return redirect()
+                ->route('auth.login')
+                ->with('error', 'Недійсна лінка, або час лінки вийшов. Пробуй ще, шльоцик)');
+        }
     }
 
-    public function resetPassword()
+    public function postResetPassword(Request $request, string $token)
     {
-        //TODO: reset da fucking password
+        $this->validate($request, [
+            'newPassword' => 'required|min:6',
+            'newPasswordRepeat' => 'required|same:newPassword'
+        ]);
+
+        $email = PasswordReset::where('token', $token)->first()->email;
+        if (!empty($email)) {
+            $user = User::where('email', $email)->first();
+            $user->password = bcrypt($request->input('newPassword'));
+
+            if ($user->save()) {
+                return redirect()
+                    ->route('auth.login')
+                    ->with('success', 'Пароль змінено');
+            }
+
+            return redirect()
+                ->route('auth.login')
+                ->with('error', 'Хулі ти ломишся, іди вже нахуй!!!');
+        }
+
+        return redirect()
+            ->route('auth.login')
+            ->with('error', 'Хулі ти ломишся, іди вже нахуй!!!');
     }
 
     private function generateToken()
     {
-        return bcrypt(str_random(35));
+        return md5(str_random(35));
     }
 }
