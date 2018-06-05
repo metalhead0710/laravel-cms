@@ -72,7 +72,7 @@ class AuthController extends Controller
 	public function postCheckEmail(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email|max:255'
+            'email' => 'required|email|max:255|exists:users,email'
         ]);
 
         $user = User::where('email', $request->input('email'))->get()->first();
@@ -101,7 +101,7 @@ class AuthController extends Controller
                 ->with('success', 'Перевіряй пошту, там лінк на відновлення паролю досі прийшов, башка ти дирява!');
         }
 
-        return redirect()->route('auth.checkEmail')->with('error', 'Іди нахуй, такого мила нема');
+        return redirect()->route('auth.checkEmail')->with('error', 'Хулі ти ломишся, іди вже нахуй!!!');
     }
 
     public function resetPassword(string $token)
@@ -151,6 +151,6 @@ class AuthController extends Controller
 
     private function generateToken()
     {
-        return md5(str_random(35));
+        return str_random(255);
     }
 }
