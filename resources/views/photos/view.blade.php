@@ -59,8 +59,8 @@
                             console.log("Більш нема фоток");
                         }else{
                             $(".gallery").append(data);
-                            num = num + 8;
-                            count = count - 8;
+                            num = num + 12;
+                            count = count - 12;
                             checkData(count);
                             $("#imgLoad").hide();
                             $('.photo-item').simpleLightbox();

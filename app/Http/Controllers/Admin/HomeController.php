@@ -18,17 +18,22 @@ class HomeController extends ControllerBase
         return $period;
     }
 
-    public function index(Request $request)
+    public function index()
+    {
+        return view('admin.home.index');
+    }
+
+    public function getData(Request $request)
     {
         $dateFrom = Carbon::now()->today();
-        if ($request->input('period') != null) {
+        if ($request->input('period') != null && $request->input('period') < $dateFrom) {
             $dateFrom = Carbon::createFromFormat('d.m.Y', $request->input('period'));
             $dateFrom->endOfDay();
         }
 
         $dateTo = Carbon::now();
         $period = $this->getPeriod($dateFrom, $dateTo);
-        /*$pageViews = Analytics::fetchTotalVisitorsAndPageViews($period);
+        $pageViews = Analytics::fetchTotalVisitorsAndPageViews($period);
         $topRefferers = Analytics::fetchTopReferrers($period, $maxResults = 20);
 
         $popPages = Analytics::fetchMostVisitedPages($period, $maxResults = 5);
@@ -46,15 +51,10 @@ class HomeController extends ControllerBase
         $topBrowsers = $topBrowsers->toJson();
         $pageViews = $pageViews->toJson();
         $countries = collect($countries)->toJson();
-        $users = collect($users)->toJson();*/
-        $popPages = null;
-        $topBrowsers = null;
-        $topRefferers = null;
-        $pageViews = null;
-        $users = null;
-        $countries = null;
+        $users = collect($users)->toJson();
 
-        return view('admin.home.index', [
+
+        return view('admin.home.data', [
             'period' => $request->input('period'),
             'popPages' => $popPages,
             'topRefferers' => $topRefferers,

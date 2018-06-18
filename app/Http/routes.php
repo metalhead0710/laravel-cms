@@ -96,9 +96,13 @@ Route::group(['prefix' => 'dominator', 'middleware' => 'PyroMans\Http\Middleware
 		'uses' => '\PyroMans\Http\Controllers\Admin\HomeController@index',
 		'as' => 'admin.home'
 	]);
-    Route::post('/', [
-        'uses' => '\PyroMans\Http\Controllers\Admin\HomeController@index',
-        'as' => 'admin.home'
+    Route::get('/getData', [
+        'uses' => '\PyroMans\Http\Controllers\Admin\HomeController@getData',
+        'as' => 'admin.home.getData'
+    ]);
+    Route::post('/getData', [
+        'uses' => '\PyroMans\Http\Controllers\Admin\HomeController@getData',
+        'as' => 'admin.home.getData'
     ]);
 
     /*
