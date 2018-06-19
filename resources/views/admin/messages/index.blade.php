@@ -96,6 +96,8 @@
 @section('Scripts')
 <script type="text/javascript" src="{{ asset('assets/js/pages/admin/messages/list.js') }}"></script>
 <script type="text/javascript">
-  App.Page.Messages();
+  App.Page.Messages({
+    newMsgUrl: '{{route('admin.messages')}}'
+  });
 </script>
 @endsection

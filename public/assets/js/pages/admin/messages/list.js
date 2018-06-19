@@ -1,8 +1,10 @@
 !(function($) {
   'use strict';
 
-  var Messages = {
-    options: {},
+  let Messages = {
+    options: {
+      newMsgUrl: null
+    },
 
     //main function
     init: function(options, root) {
@@ -10,55 +12,41 @@
       //Mix passed options with default ones
       this.options = $.extend({}, this.options, options);
 
-      this.addPhotosBtn = $('.add-photos');
+      this.checksBoxes = this.root.find('.ids');
+      this.deleteMassive = this.root.find('.btn-group');
+      this.deleteOne = this.root.find('.delete');
+      this.markAsReadBtn = this.root.find('.mark-as-read');
+      this.popup = this.root.find('#message-modal');
+      this.badge = this.root.find('.badge-info');
+
       // Bind handlers
       this.bindHandlers();
     },
     bindHandlers: function() {
-      var self = this;
-      $('.ids').on('change', function() {
-        if (this.checked) {
-          $('.btn-group').show(50);
+      this.checksBoxes.on('change', () => {
+        let checksCount = $(":checkbox:checked").length;
+        if (checksCount) {
+          this.deleteMassive.show(50);
+        } else {
+          this.deleteMassive.hide(50);
         }
-        if ($('.ids:checked').length == 0) {
-          $('.btn-group').hide(50);
-        }
       });
-      $(".mark-as-read").click(function(){
-        var url = $(this).data('url');
-        self.addLinkAndSubmit(url);
+
+      this.markAsReadBtn.click( (e) => {
+        //let url = e.target.attributes.getNamedItem('data-url').value;
+        let url = e.currentTarget.dataset.url;
+        this.addLinkAndSubmit(url);
       });
-      $(".delete").click(function(){
-        var url = $(this).data('url');
-        self.addLinkAndSubmit(url);
+
+      this.deleteOne.click( (e) => {
+        let url = e.currentTarget.dataset.url;
+        this.addLinkAndSubmit(url);
       });
-      $('table td').on('click', function(e) {
+      $('table td').on('click', (e) => {
         if (!$(e.target).closest('.ids').length) {
-          var row = $(this).closest('tr'),
-              id = row.data('id');
-          $.ajax({
-            url: "/dominator/messages/view/"+id,
-            type: "get",
-            success: function(data){
-              if(data == 0){
-                $(".button-more").hide();
-                console.log("Error");
-              }else{
-                $('#message-modal').modal('show');
-                $('#message-modal .sendname').html(data.sendname);
-                $('#message-modal .email').html(data.email);
-                $('#message-modal .time').html(data.created_at);
-                $('#message-modal .content').html(data.content);
-                var counter = $('.badge-info').html() -1;
-                if(counter > 0) {
-                  $('.badge-info').html(counter);
-                } else {
-                  $('.badge-info').remove();
-                }
-                row.remove();
-              }
-            }
-          });
+          const row = e.currentTarget.closest('tr'),
+                id = row.dataset.id;
+          this.getMessage(row, id);
         }
       });
       $('[data-toggle="tooltip"]').tooltip({
@@ -68,7 +56,42 @@
     addLinkAndSubmit: function(url) {
       $('.form-messages').attr("action", url);
       $(".form-messages").submit();
+    },
+    getMessage: function (row, id) {
+      $.ajax({
+        url: `/dominator/messages/view/${id}`,
+        type: "get",
+        success: (data) => {
+          if(data == 0){
+            $(".button-more").hide();
+            console.log("Error");
+          }else{
+            this.showMessage(data);
+            this.updateInfo(row);
+          }
+        }
+      });
+    },
+    showMessage: function(data) {
+      this.popup.modal('show');
+      this.popup.find('.sendname').html(data.sendname);
+      this.popup.find('.email').html(data.email);
+      this.popup.find('.time').html(data.created_at);
+      this.popup.find('.content').html(data.content);
+    },
+    updateInfo: function(row) {
+      let counter = this.badge.html() -1;
+      $(row).find('.badge').remove();
+      if(counter > 0) {
+        this.badge.html(counter);
+      } else {
+        this.badge.remove();
+      }
+      if (this.options.newMsgUrl) {
+        row.remove();
+      }
     }
+
   };
 
   App.Page.Messages = function(options, root) {

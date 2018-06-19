@@ -146,6 +146,8 @@
 
 <!--Common Js file-->
 <script type="text/javascript" src="{{ asset('assets/js/common-backend.js') }}"></script>
+<script src="{{ asset('assets/components/b-file-input/bootstrap-filestyle.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/pages/admin/common-index-functions/list.js') }}"></script>
 
 <!-- Custom Theme JavaScript -->
 <!--<script src="{{ asset('assets/js/sb-admin-2.js') }}"></script>-->

@@ -105,7 +105,6 @@
 
 @stop
 @section('Scripts')
-    <script src="{{ asset('assets/components/b-file-input/bootstrap-filestyle.min.js') }}"></script>
     <script src="{{ asset('assets/components/jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/admin/carousel/list.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
@@ -114,6 +113,7 @@
             url: "{{ route('admin.banners.sortout') }}",
             token: "{{csrf_token()}}"
         });
+        App.Page.CommonIndexFunctions();
       });
     </script>
 @endsection

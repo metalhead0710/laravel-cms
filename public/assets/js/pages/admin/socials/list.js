@@ -1,7 +1,7 @@
 !(function($) {
   'use strict';
 
-  var Socials = {
+  const Socials = {
     options: {
       url: null
     },
@@ -11,59 +11,53 @@
       this.root = $(root);
       //Mix passed options with default ones
       this.options = $.extend({}, this.options, options);
-      this.deleteLink = $('a.delete');
+      //this.deleteLink = $('a.delete');
       this.editSocial  = $('.edit-social');
+      this.editSocialForm = this.root.find('#edit-social-form');
+      this.editSocialModal = this.root.find('#edit-modal');
 
       // Bind handlers
       this.bindHandlers();
     },
     bindHandlers: function() {
-      var self = this;
-      $('input[type=file]').filestyle({
-        text : 'Виберіть файл(и)',
-        badge: true,
-        buttonBefore : true,
-        btnClass : 'btn-primary',
-        htmlIcon : '<i class="fa fa-file-image-o"></i> '
-      });
-
-      this.deleteLink.on("click", function () {
-        var	url = $(this).data("link");
-        $('.delete-confirm').attr("href", url);
-      });
-
-      this.editSocial.on('click', function(e) {
-        var row = $(this).closest('tr'),
-            id = row.data('id');
-        self.getSocial(id);
+      this.editSocial.on('click', (e) => {
+        let row = e.currentTarget.closest('tr'),
+            id = row.dataset.id;
+        this.getSocial(id);
         e.preventDefault();
       });
 
-      $('#edit-modal').on('hidden.bs.modal', function() {
-        $('#edit-social-form .id').attr('value', '');
-        $('#edit-social-form .name').attr('value', '');
-        $('#edit-social-form .url').attr('value', '');
-        $('#edit-modal .icon').attr('src', '');
-        $('#edit-modal .icon').hide();
+      this.editSocialModal.on('hidden.bs.modal', () => {
+        this.clearPopup();
       });
     },
     getSocial: function(id) {
-      var data = {};
+      let data = {};
       $.ajax({
         type: 'get',
         url: this.options.url + '/' + id,
-        success: function(data) {
-          $('#edit-social-form .id').attr('value', data.id);
-          $('#edit-social-form .name').attr('value', data.name);
-          $('#edit-social-form .url').attr('value', data.url);
-          $('#edit-modal .icon').attr('src', '/' + data.thumb);
-          $('#edit-modal .icon').show();
-          $('#edit-modal').modal('show');
+        success: (data) => {
+          this.showModal(data);
         },
         error: function() {
           console.log('not zbs');
         }
       });
+    },
+    showModal: function (data) {
+      this.editSocialForm.find('.id').attr('value', data.id);
+      this.editSocialForm.find('.name').attr('value', data.name);
+      this.editSocialForm.find('.url').attr('value', data.url);
+      this.editSocialModal.find('.icon').attr('src', '/' + data.thumb);
+      this.editSocialModal.find('.icon').show();
+      this.editSocialModal.modal('show');
+    },
+    clearPopup: function() {
+      this.editSocialForm.find('.id').attr('value', '');
+      this.editSocialForm.find('.name').attr('value', '');
+      this.editSocialForm.find('.url').attr('value', '');
+      this.editSocialModal.find('.icon').attr('src', '');
+      this.editSocialModal.find('.icon').hide();
     }
   };
 

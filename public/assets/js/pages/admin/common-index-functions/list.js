@@ -16,8 +16,8 @@
     },
     bindHandlers: function() {
       this.deleteBtn.on('click', function() {
-        var link = $(this).closest('a.delete');
-        var url = link.data('link');
+        let link = $(this).closest('a.delete'),
+            url = link.data('link');
         $('.delete-confirm').attr('href', url);
       });
       $('input[type=file]').filestyle({

@@ -1,7 +1,7 @@
 !(function($) {
   'use strict';
 
-  var Carousel = {
+  let Carousel = {
     options: {
       url: null,
       token: null
@@ -14,53 +14,41 @@
       this.options = $.extend({}, this.options, options);
 
       this.saveOrderButton = $('.save-order');
-      this.bannerItem = $('.banner-list li');
-      this.deleteBtn = $('.delete');
+      this.sortPopup = this.root.find('.sort-popup');
 
       // Bind handlers
       this.bindHandlers();
     },
 
     bindHandlers: function() {
-      var self = this;
-      $('input[type=file]').filestyle({
-        text: 'Виберіть файл',
-        badge: true,
-        buttonBefore: true,
-        btnClass: 'btn-primary',
-        htmlIcon: '<i class="fa fa-file-image-o"></i> '
-      });
-
-      this.deleteBtn.on('click', function() {
-        var link = $(this).closest('a.delete');
-        var url = link.data('link');
-        $('.delete-confirm').attr('href', url);
-      });
-
       $('.banner-list').sortable({
         helper: this.fixHelperModified,
-        stop: function(e, ui) {
-          self.updateIndex(e, ui);
-          self.showSaveButton();
+        stop: (e, ui) => {
+          this.updateIndex(e, ui);
+          this.showSaveButton();
         }
       }).disableSelection();
-      this.saveOrderButton.on('click', function(e) {
-        var data = self.collectSortState();
-        self.sortOut(data, self.options.url, self.options.token);
+
+      this.saveOrderButton.on('click', (e) => {
+        let data = this.collectSortState();
+        this.sortOut(data, this.options.url, this.options.token);
         e.preventDefault();
       });
     },
+
     showSaveButton: function() {
       this.saveOrderButton.show();
     },
+
     hideSaveButton: function() {
       this.saveOrderButton.hide();
     },
+
     collectSortState: function() {
-      var vals = [],
+      let vals = [],
           value = {};
       $('.banner-list li').each(function() {
-        var id = $(this).data('id'),
+        let id = $(this).data('id'),
             sort = $(this).data('sort');
         value = {
           id: id,
@@ -84,33 +72,31 @@
       });
     },
     sortOut: function(data, url, token) {
-      var self = this;
       $.ajax({
         type: 'post',
         url: url,
         data: {ids: data, _token: token},
         dataType: 'json',
-        success: function() {
-          self.getFlashMsg(1);
-          self.hideSaveButton();
+        success: () => {
+          this.getFlashMsg(true);
+          this.hideSaveButton();
         },
-        error: function() {
-          self.getFlashMsg(0);
+        error: () => {
+          this.getFlashMsg(false);
         }
       });
     },
     getFlashMsg: function(res) {
-      var self = this,
-          data = {};
+      let data = {};
       $.ajax({
         type: 'get',
-        url: '/dominator/getPopupMsg/' + res,
+        url: `/dominator/getPopupMsg/${res}`,
         data: data,
         dataType: 'html',
-        success: function(data) {
-          $('.sort-popup').html(data);
-          $('.sort-popup').fadeTo(1000, 500).slideUp(500, function(){
-            $('.sort-popup').slideUp(500);
+        success: (data) => {
+          this.sortPopup.html(data);
+          this.sortPopup.fadeTo(1000, 500).slideUp(500, () => {
+            this.sortPopup.slideUp(500);
           });
         },
         error: function() {

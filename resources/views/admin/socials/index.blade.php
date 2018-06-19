@@ -170,5 +170,6 @@
       App.Page.Socials({
         url: '{{ route('admin.socials.getOne') }}'
       });
+      App.Page.CommonIndexFunctions();
     </script>
 @endsection

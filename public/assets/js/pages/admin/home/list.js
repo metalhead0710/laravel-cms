@@ -13,16 +13,18 @@
       //Mix passed options with default ones
       this.options = $.extend({}, this.options, options);
 
+      this.periodForm = this.root.find('#period');
+      this.statsBlock = this.root.find('#stats');
+      this.loading = this.root.find('.loading');
+
       // Bind handlers
       this.bindHandlers();
     },
     bindHandlers: function() {
-      var self = this;
-
-      $('#period').on("change", function () {
-        var startDate = $("#period").val();
-        self.showLoad();
-        self.sendRequest(startDate);
+      this.periodForm.on("change", () => {
+        let startDate = this.periodForm.val();
+        this.showLoad();
+        this.sendRequest(startDate);
       });
       $('.date').datepicker({
         autoclose:true,
@@ -32,15 +34,14 @@
       this.sendRequest();
     },
     sendRequest: function( date = null) {
-      var self = this;
       $.ajax({
         type: 'post',
         url: this.options.url,
         data: { period: date, _token: this.options.token},
         dataType: 'html',
-        success: function(responce) {
-          $('#stats').html(responce);
-          self.hideLoad();
+        success: (responce) => {
+          this.statsBlock.html(responce);
+          this.hideLoad();
         },
         error: function() {
           alert("Сталася якась поєбень");
@@ -48,10 +49,10 @@
       });
     },
     hideLoad: function() {
-      $('.loading').hide();
+      this.loading.hide();
     },
     showLoad: function() {
-      $('.loading').show();
+      this.loading.show();
     }
   };
 

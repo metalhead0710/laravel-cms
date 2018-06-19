@@ -36,7 +36,7 @@ class ContactController extends ControllerBase
 		    Mail::send('contacts.email', ['data' => $data], function($message) use ($data) {
 			    $email = Contact::first()->email;
 			    $message->from($data['email'], $data['sendname']);
-			    $message->to($email)->subject('З сайту продюсерського центру');
+			    $message->to($email)->subject('Домінатору лист з сайту');
 		    });
 
 		    if($result)
