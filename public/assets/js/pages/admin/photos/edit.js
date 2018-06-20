@@ -1,7 +1,7 @@
 !(function($) {
   'use strict';
 
-  var PhotoList = {
+  const PhotoList = {
     options: {
       url: null,
       token: null
@@ -14,15 +14,18 @@
       this.options = $.extend({}, this.options, options);
 
       this.saveOrderButton = $('.save-order');
-      this.photoItem = $('.box-item');
-      this.deleteLink = this.root.find('delete-link');
-      this.sortPopup = this.root.find('sort-popup');
+      this.photoItem = this.root.find('.box-item');
+      this.deleteLink = this.root.find('.delete-link');
+      this.deleteMassive = this.root.find('.submit-btn')
+      this.sortPopup = this.root.find('.sort-popup');
+      this.deleteOne = this.root.find('.delete-one');
+      this.form = this.root.find('.forma');
+      this.sortableBox = this.root.find('.box');
 
       // Bind handlers
       this.bindHandlers();
     },
     bindHandlers: function() {
-      var self = this;
       $('input[type=file]').filestyle({
         text : 'Виберіть файл(и)',
         badge: true,
@@ -30,51 +33,62 @@
         btnClass : 'btn-primary',
         htmlIcon : '<i class="fa fa-file-image-o"></i> '
       });
+
       this.photoItem.hover(function() {
-        var id = $(this).data("id");
+        let id = $(this).data("id");
         $('div[data-id='+id+'] div').slideDown(200);
       });
+
       this.photoItem.mouseleave(function() {
-        var id = $(this).data("id");
+        let id = $(this).data("id");
         $('div[data-id='+id+'] div').slideUp(200);
       });
-      this.deleteLink.on("click", function () {
-        var	url = $(this).data("deletelink");
-        $('.delete-one').attr("href", url);
-      });
-      $('.forma :checkbox').change(function() {
-        if (this.checked) {
-          $('.submit-btn').show(50);
-        }
-      });
-      $(".submit-btn").click(function(){
-        $(".forma").submit();
+
+      this.deleteLink.on("click", (e) => {
+        let url = e.currentTarget.dataset.deletelink;
+        this.deleteOne.attr("href", url);
       });
 
-      $('.box').sortable({
+      this.form.find(':checkbox').change( () => {
+        let checksCount = $(":checkbox:checked").length;
+        if (checksCount) {
+          this.deleteMassive.show(50);
+        } else {
+          this.deleteMassive.hide(50);
+        }
+      });
+
+      this.deleteMassive.click( () => {
+        this.form.submit();
+      });
+
+      this.sortableBox.sortable({
         helper: this.fixHelperModified,
-        stop: function(e, ui) {
-          self.updateIndex(e, ui);
-          self.showSaveButton();
+        stop:  (e, ui) => {
+          this.updateIndex(e, ui);
+          this.showSaveButton();
         }
       }).disableSelection();
-      this.saveOrderButton.on('click', function(e) {
-        var data = self.collectSortState();
-        self.sortOut(data, self.options.url, self.options.token);
+
+      this.saveOrderButton.on('click', (e) => {
+        let data = this.collectSortState();
+        this.sortOut(data, this.options.url, this.options.token);
         e.preventDefault();
       });
     },
     showSaveButton: function() {
       this.saveOrderButton.show();
     },
+
     hideSaveButton: function() {
       this.saveOrderButton.hide();
     },
+
     collectSortState: function() {
-      var vals = [],
+      let vals = [],
           value = {};
-      $('.box-item').each(function() {
-        var id = $(this).data('id'),
+      this.photoItem.each(function() {
+        let id = $(this).data('id'),
             sort = $(this).data('sort');
         value = {
           id: id,
@@ -84,6 +98,7 @@
       });
       return vals;
     },
+
     fixHelperModified: function(e, ul) {
       var $originals = ul.children();
       var $helper = ul.clone();
@@ -92,39 +107,40 @@
       });
       return $helper;
     },
-    updateIndex: function(e, ui) {
+
+    updateIndex: function() {
       $('.box-item').each(function(i) {
         $(this).attr('data-sort', i + 1);
       });
     },
+
     sortOut: function(data, url, token) {
-      var self = this;
       $.ajax({
         type: 'post',
         url: url,
         data: {ids: data, _token: token},
         dataType: 'json',
-        success: function() {
-          self.getFlashMsg(1);
-          self.hideSaveButton();
+        success: () => {
+          this.getFlashMsg(true);
+          this.hideSaveButton();
         },
-        error: function() {
-          self.getFlashMsg(0);
+        error: () => {
+          this.getFlashMsg(false);
         }
       });
     },
+
     getFlashMsg: function(res) {
-      var self = this,
-          data = {};
+      let data = {};
       $.ajax({
         type: 'get',
         url: '/dominator/getPopupMsg/' + res,
         data: data,
         dataType: 'html',
-        success: function(data) {
-          $('.sort-popup').html(data);
-          $('.sort-popup').fadeTo(1000, 500).slideUp(500, function(){
-            $('.sort-popup').slideUp(500);
+        success: data => {
+          this.sortPopup.html(data);
+          this.sortPopup.fadeTo(1000, 500).slideUp(500, () => {
+            this.sortPopup.slideUp(500);
           });
         },
         error: function() {

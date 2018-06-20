@@ -20,7 +20,7 @@
       this.bindHandlers();
     },
     bindHandlers: function() {
-      this.editSocial.on('click', (e) => {
+      this.editSocial.on('click', e => {
         let row = e.currentTarget.closest('tr'),
             id = row.dataset.id;
         this.getSocial(id);

@@ -16,10 +16,14 @@
       this.root = $(root);
       //Mix passed options with default ones
       this.options = $.extend({}, this.options, options);
-      this.setColors(this.options.browsers);
-      this.setColors(this.options.topRefferers);
-      this.setColors(this.options.users);
-      this.setColors(this.options.countries);
+
+      this.setColors([
+        this.options.browsers,
+        this.options.topRefferers,
+        this.options.users,
+        this.options.countries
+      ]);
+
       this.ctxRefferers = document.getElementById('refferers').getContext('2d');
       this.configRefferers = {
         type: 'doughnut',
@@ -29,7 +33,6 @@
               return topRefferers.pageViews;
             }),
             backgroundColor: this.options.topRefferers.map(function(topRefferers) {
-              var self = this;
               return topRefferers.color;
             })
           }],
@@ -179,10 +182,12 @@
       }
       return color;
     },
-    setColors: function(array) {
-      for(var i = 0; i < array.length; i++){
-        array[i].color = this.options.colors[i];
-      }
+    setColors: function(data) {
+      data.map((array) => {
+        for(let i = 0; i < array.length; i++){
+          array[i].color = this.options.colors[i];
+        }
+      });
     }
 
   };

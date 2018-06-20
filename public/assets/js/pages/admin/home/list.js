@@ -16,11 +16,17 @@
       this.periodForm = this.root.find('#period');
       this.statsBlock = this.root.find('#stats');
       this.loading = this.root.find('.loading');
+      this.getStatsBtn = this.root.find('.get-stats');
 
       // Bind handlers
       this.bindHandlers();
     },
     bindHandlers: function() {
+      this.getStatsBtn.on('click', () => {
+        this.showLoad();
+        this.sendRequest();
+      });
+
       this.periodForm.on("change", () => {
         let startDate = this.periodForm.val();
         this.showLoad();
@@ -31,7 +37,6 @@
         endDate: '+0d',
         language: 'uk'
       });
-      this.sendRequest();
     },
     sendRequest: function( date = null) {
       $.ajax({
