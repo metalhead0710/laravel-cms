@@ -19,6 +19,10 @@ class FeMiddleware
         $meta = Setting::first();
         view()->share('meta', $meta);
 
+        /*SQL palieren*/
+        /*DB::listen(function ($query) {
+            dump($query->sql);
+        });*/
 
         return $next($request);
     }
