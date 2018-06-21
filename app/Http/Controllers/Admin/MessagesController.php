@@ -2,13 +2,11 @@
 
 namespace PyroMans\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-
-use PyroMans\Http\Requests;
-use PyroMans\Http\Controllers\ControllerBase;
 use PyroMans\Message;
+use Illuminate\Http\Request;
+use PyroMans\Http\Controllers\Controller;
 
-class MessagesController extends ControllerBase
+class MessagesController extends Controller
 {
     public function index()
     {

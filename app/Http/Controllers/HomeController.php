@@ -8,7 +8,7 @@ use PyroMans\Http\Requests;
 use PyroMans\Service;
 use PyroMans\Setting;
 
-class HomeController extends ControllerBase
+class HomeController extends Controller
 {
     public function index()
     {

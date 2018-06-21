@@ -2,15 +2,13 @@
 
 namespace PyroMans\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-
-use PyroMans\Auxillary\FileUpload;
-use PyroMans\Http\Requests;
-use PyroMans\Http\Controllers\ControllerBase;
-use PyroMans\Service;
 use File;
+use PyroMans\Service;
+use Illuminate\Http\Request;
+use PyroMans\Auxillary\FileUpload;
+use PyroMans\Http\Controllers\Controller;
 
-class ServicesController extends ControllerBase
+class ServicesController extends Controller
 {
     public function index()
     {

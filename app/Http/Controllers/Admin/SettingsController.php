@@ -6,9 +6,9 @@ use Image;
 use PyroMans\Setting;
 use Illuminate\Http\Request;
 use PyroMans\Auxillary\FileUpload;
-use PyroMans\Http\Controllers\ControllerBase;
+use PyroMans\Http\Controllers\Controller;
 
-class SettingsController extends ControllerBase
+class SettingsController extends Controller
 {
     public function index()
     {

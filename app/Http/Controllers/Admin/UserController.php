@@ -6,9 +6,8 @@ use PyroMans\User;
 use Illuminate\Http\Request;
 use PyroMans\Auxillary\FileUpload;
 use Illuminate\Support\Facades\Hash;
-use PyroMans\Http\Controllers\ControllerBase;
 
-class UserController extends ControllerBase
+class UserController extends Controller
 {
     public function edit()
     {

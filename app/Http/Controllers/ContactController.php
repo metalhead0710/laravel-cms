@@ -10,7 +10,7 @@ use PyroMans\Message;
 use Mail;
 use Mockery\Exception;
 
-class ContactController extends ControllerBase
+class ContactController extends Controller
 {
     public function index()
     {

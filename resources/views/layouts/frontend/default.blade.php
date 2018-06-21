@@ -21,10 +21,10 @@
     </script>
 
     <meta charset="utf-8">
-    <title> @yield('title') - {{$meta->mainTitle}}</title>
+    <title> @yield('title') - {{$meta->mainTitle ?? ''}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="keywords" content="{{ $meta->meta_keywords }}"/>
-    <meta name="description" content="{{ $meta->meta_description }}"/>
+    <meta name="keywords" content="{{ $meta->meta_keywords ?? '' }}"/>
+    <meta name="description" content="{{ $meta->meta_description ?? '' }}"/>
     <link href="{{ asset('assets/img/mik_icon.png') }}" rel="shortcut icon" type="image/png" />
     <link rel="stylesheet" href="{{asset('assets/components/bootstrap/dist/css/bootstrap.min.css')}}">
     <!-- Font Awesome -->

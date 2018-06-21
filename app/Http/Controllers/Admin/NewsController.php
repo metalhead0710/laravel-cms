@@ -7,9 +7,9 @@ use Image;
 use PyroMans\News;
 use Illuminate\Http\Request;
 use PyroMans\Auxillary\FileUpload;
-use PyroMans\Http\Controllers\ControllerBase;
+use PyroMans\Http\Controllers\Controller;
 
-class NewsController extends ControllerBase
+class NewsController extends Controller
 {
     public function index()
     {

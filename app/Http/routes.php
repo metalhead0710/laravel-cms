@@ -50,16 +50,17 @@ Route::post('/auth/reset-password/{token}', [
 | Home actions
 |--------------------------------------------------------------------------
 */
+Route::group(['prefix' => '/', 'middleware' => PyroMans\Http\Middleware\FeMiddleware::class], function(){
 
     Route::get('/', [
         'uses' => '\PyroMans\Http\Controllers\HomeController@index',
         'as' => 'home'
     ]);
+
     Route::get('/news', [
         'uses' => '\PyroMans\Http\Controllers\NewsController@index',
         'as' => 'news'
     ]);
-
 
     Route::group(['prefix' => 'photos'], function() {
         Route::get('/', [
@@ -89,7 +90,13 @@ Route::post('/auth/reset-password/{token}', [
         'uses' => '\PyroMans\Http\Controllers\UploadController@index'
     ]);
 
+});
 
+/*
+|--------------------------------------------------------------------------
+| Admin actions
+|--------------------------------------------------------------------------
+*/
 Route::group(['prefix' => 'dominator', 'middleware' => 'PyroMans\Http\Middleware\AdminMiddleware'], function()
 {
     Route::get('/', [

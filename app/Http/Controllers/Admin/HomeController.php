@@ -2,14 +2,14 @@
 
 namespace PyroMans\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use PyroMans\Http\Controllers\ControllerBase;
 use Analytics;
-use Spatie\Analytics\Period;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Spatie\Analytics\Period;
+use PyroMans\Http\Controllers\Controller;
 
 
-class HomeController extends ControllerBase
+class HomeController extends Controller
 {
     private function getPeriod(Carbon $start, Carbon $end)
     {

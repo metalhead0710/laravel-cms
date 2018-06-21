@@ -8,7 +8,7 @@ use PyroMans\Http\Requests;
 use PyroMans\Photo;
 use PyroMans\PhotoCategory;
 
-class PhotosController extends ControllerBase
+class PhotosController extends Controller
 {
     public function index()
     {

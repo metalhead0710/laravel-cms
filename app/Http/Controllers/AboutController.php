@@ -8,7 +8,7 @@ use PyroMans\Http\Requests;
 use PyroMans\Person;
 use PyroMans\Work;
 
-class AboutController extends ControllerBase
+class AboutController extends Controller
 {
     public function index()
     {

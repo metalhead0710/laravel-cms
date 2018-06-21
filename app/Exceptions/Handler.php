@@ -3,6 +3,8 @@
 namespace PyroMans\Exceptions;
 
 use Exception;
+use PyroMans\User;
+use PyroMans\Message;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -45,6 +47,23 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        $status = $e->getStatusCode();
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([], $status);
+        } else if($request->is('dominator/*')) {
+            return response()->view(
+                "admin.errors.{$status}",
+                [
+                    'exception' => $e,
+                    'count'=> Message::where('isNew', true)->count(),
+                    'newMsg' => Message::where('isNew', true)->orderBy('created_at', 'DESC')->take(8)->get(),
+                    'user' => User::firstOrFail()
+                ],
+                $status,
+                $e->getHeaders()
+            );
+        }
+
         return parent::render($request, $e);
     }
 }

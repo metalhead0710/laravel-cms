@@ -2,9 +2,9 @@
 
 namespace PyroMans\Http\Controllers\Admin;
 
-use PyroMans\Http\Controllers\ControllerBase;
+use PyroMans\Http\Controllers\Controller;
 
-class PopupController extends ControllerBase
+class PopupController extends Controller
 {
     public function index($res)
     {

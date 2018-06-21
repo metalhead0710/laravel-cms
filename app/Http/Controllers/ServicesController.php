@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use PyroMans\Http\Requests;
 use PyroMans\Service;
 
-class ServicesController extends ControllerBase
+class ServicesController extends Controller
 {
     public function index()
     {

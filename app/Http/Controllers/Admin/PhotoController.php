@@ -2,19 +2,18 @@
 
 namespace PyroMans\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-
 use DB;
 use File;
 use Image;
 use Validator;
 use PyroMans\Photo;
 use PyroMans\PhotoCategory;
+use Illuminate\Http\Request;
 use PyroMans\Auxillary\Translit;
 use PyroMans\Auxillary\FileUpload;
-use PyroMans\Http\Controllers\ControllerBase;
+use PyroMans\Http\Controllers\Controller;
 
-class PhotoController extends ControllerBase
+class PhotoController extends Controller
 {
     public function index()
     {

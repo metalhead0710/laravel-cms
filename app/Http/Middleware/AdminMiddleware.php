@@ -3,6 +3,8 @@
 namespace PyroMans\Http\Middleware;
 
 use Closure;
+use PyroMans\User;
+use PyroMans\Message;
 
 class AdminMiddleware
 {
@@ -19,10 +21,14 @@ class AdminMiddleware
     	{
 			return redirect('auth/login');
 		}
-        /*else
-        {
-            return redirect('home');
-        }*/
+
+		/* Shared variables */
+        $newMsg = Message::where('isNew', true)->orderBy('created_at', 'DESC')->take(8)->get();
+        $count = Message::where('isNew', true)->count();
+        $user = User::first();
+        view()->share('newMsg', $newMsg);
+        view()->share('count', $count);
+        view()->share('user', $user);
 
 		return $next($request);
     }

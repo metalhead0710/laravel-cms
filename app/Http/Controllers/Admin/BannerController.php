@@ -2,13 +2,13 @@
 
 namespace PyroMans\Http\Controllers\Admin;
 
-use PyroMans\Banner;
 use DB;
+use PyroMans\Banner;
 use Illuminate\Http\Request;
 use PyroMans\Auxillary\FileUpload;
-use PyroMans\Http\Controllers\ControllerBase;
+use PyroMans\Http\Controllers\Controller;
 
-class BannerController extends ControllerBase
+class BannerController extends Controller
 {
     public function index()
     {

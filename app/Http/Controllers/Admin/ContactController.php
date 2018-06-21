@@ -4,9 +4,9 @@ namespace PyroMans\Http\Controllers\Admin;
 
 use PyroMans\Contact;
 use Illuminate\Http\Request;
-use PyroMans\Http\Controllers\ControllerBase;
+use PyroMans\Http\Controllers\Controller;
 
-class ContactController extends ControllerBase
+class ContactController extends Controller
 {
     public function index()
     {

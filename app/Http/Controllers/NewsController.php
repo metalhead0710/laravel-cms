@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use PyroMans\Http\Requests;
 use PyroMans\News;
 
-class NewsController extends ControllerBase
+class NewsController extends Controller
 {
     public function index()
     {
