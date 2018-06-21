@@ -8,16 +8,8 @@ use Illuminate\Http\Request;
 use Spatie\Analytics\Period;
 use PyroMans\Http\Controllers\Controller;
 
-
 class HomeController extends Controller
 {
-    private function getPeriod(Carbon $start, Carbon $end)
-    {
-        $period = Period::create($start, $end);
-
-        return $period;
-    }
-
     public function index()
     {
         return view('admin.home.index');
@@ -63,5 +55,12 @@ class HomeController extends Controller
             'topBrowsers' => $topBrowsers,
             'countries' => $countries,
         ]);
+    }
+
+    private function getPeriod(Carbon $start, Carbon $end)
+    {
+        $period = Period::create($start, $end);
+
+        return $period;
     }
 }

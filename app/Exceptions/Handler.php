@@ -3,6 +3,7 @@
 namespace PyroMans\Exceptions;
 
 use Exception;
+use Intervention\Image\Exception\NotFoundException;
 use PyroMans\User;
 use PyroMans\Message;
 use Illuminate\Validation\ValidationException;
@@ -24,6 +25,9 @@ class Handler extends ExceptionHandler
         ModelNotFoundException::class,
         ValidationException::class,
     ];
+
+    const NOT_FOUND = 404;
+    const SERVER_ERROR = 500;
 
     /**
      * Report or log an exception.
@@ -47,21 +51,29 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        $status = $e->getStatusCode();
-        if ($request->ajax() || $request->wantsJson()) {
-            return response()->json([], $status);
-        } else if($request->is('dominator/*')) {
-            return response()->view(
-                "admin.errors.{$status}",
-                [
-                    'exception' => $e,
-                    'count'=> Message::where('isNew', true)->count(),
-                    'newMsg' => Message::where('isNew', true)->orderBy('created_at', 'DESC')->take(8)->get(),
-                    'user' => User::firstOrFail()
-                ],
-                $status,
-                $e->getHeaders()
-            );
+        if($this->isHttpException($e)) {
+            if ($e->getStatusCode() === self::NOT_FOUND) {
+                if ($request->is('dominator/*')) {
+                    return response()->view(
+                        "admin.errors.{$e->getStatusCode()}",
+                        [
+                            'exception' => $e,
+                            'count' => Message::where('isNew', true)->count(),
+                            'newMsg' => Message::where('isNew', true)
+                                                ->orderBy('created_at', 'DESC')
+                                                ->take(8)
+                                                ->get(),
+                            'user' => User::firstOrFail()
+                        ],
+                        $e->getStatusCode(),
+                        $e->getHeaders()
+                    );
+                } elseif ($e->getStatusCode() === self::SERVER_ERROR) {
+                    echo 500; die;
+                } else {
+                    return $this->renderHttpException($e);
+                }
+            }
         }
 
         return parent::render($request, $e);
