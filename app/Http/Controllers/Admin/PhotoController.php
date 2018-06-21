@@ -181,7 +181,7 @@ class PhotoController extends Controller
                 ->with('success', 'Фото видалено');
         }
 
-        return redirect()->back() - with('error', 'Не можу видалити фото');
+        return redirect()->back()->with('error', 'Не можу видалити фото');
     }
 
     public function deletemassive(Request $request, $id)
@@ -208,7 +208,7 @@ class PhotoController extends Controller
                 ->with('success', 'Фото видалено');
         }
 
-        return redirect()->back() - with('error', 'Не можу видалити фото');
+        return redirect()->back()->with('error', 'Не можу видалити фото');
     }
 
     public function delete($id)
@@ -226,7 +226,7 @@ class PhotoController extends Controller
                 ->with('success', 'Каталог видалено');
         }
 
-        return redirect()->back() - with('error', 'Не можу видалити каталог');
+        return redirect()->back()->with('error', 'Не можу видалити каталог');
     }
 
 
