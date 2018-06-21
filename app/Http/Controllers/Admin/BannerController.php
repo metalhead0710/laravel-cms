@@ -20,7 +20,7 @@ class BannerController extends ControllerBase
     public function create(Request $request)
     {
         $this->validate($request, [
-            'image' => 'required|mimes:jpeg,bmp,png'
+            'image' => 'required|mimes:jpeg,bmp,png',
         ]);
 
         if ($request->hasFile('image')) {
@@ -36,11 +36,12 @@ class BannerController extends ControllerBase
             if ($fileInfo) {
                 Banner::create([
                     'file' => $fileInfo['fileUrl'],
-                    'thumb' => $fileInfo['thumbUrl']
+                    'thumb' => $fileInfo['thumbUrl'],
                 ]);
 
                 return redirect()->route('admin.banners')->with('success', "Банер збережено");
             }
+
             return redirect()->route('admin.banners')->with('error', "Не можу зберегти банер");
         }
 
@@ -62,7 +63,7 @@ class BannerController extends ControllerBase
     public function delete($id)
     {
         $banner = Banner::find($id);
-        if($banner == null) {
+        if ($banner == null) {
             return redirect()->route('admin.banners')->with('error', 'Немає такого банера.');
         }
         FileUpload::deleteImageAndThumb($banner->file, $banner->thumb);

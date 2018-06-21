@@ -18,84 +18,89 @@ class AuthController extends Controller
     {
         return view('auth.register');
     }
+
     public function postRegister(Request $request)
     {
         $this->validate($request, [
-        	'username' => 'required|unique:users|alpha_dash|max:20',
-        	'email' => 'required|unique:users|email|max:255',
-        	'firstName' => 'required|max:255',
-        	'lastName' => 'required|max:255',
-        	'password' => 'required|min:6',
-        	'password_repeat' => 'required|same:password'
-        	
+            'username' => 'required|unique:users|alpha_dash|max:20',
+            'email' => 'required|unique:users|email|max:255',
+            'firstName' => 'required|max:255',
+            'lastName' => 'required|max:255',
+            'password' => 'required|min:6',
+            'password_repeat' => 'required|same:password',
         ]);
-        
+
         User::create([
-        	'username' => $request->input('username'), 
-	    	'email' => $request->input('email'), 
-	    	'firstName' => $request->input('firstName'),
-	    	'lastName' => $request->input('lastName'),
-	    	'password' => bcrypt($request->input('password')),
-	    	'isAdmin' => false
+            'username' => $request->input('username'),
+            'email' => $request->input('email'),
+            'firstName' => $request->input('firstName'),
+            'lastName' => $request->input('lastName'),
+            'password' => bcrypt($request->input('password')),
+            'isAdmin' => false,
         ]);
+
         return redirect()->route('home')->with('success', 'Ви успішно зареєстровані');
-    }  
+    }
+
     public function getLogin()
     {
         return view('auth.login');
     }
+
     public function postLogin(Request $request)
     {
         $this->validate($request, [
-        	'username' => 'required',
-        	'password' => 'required'
+            'username' => 'required',
+            'password' => 'required',
         ]);
-        if (!Auth::attempt($request->only(['username', 'password']), $request->has('remember')))
-        {
-			return redirect()->back()->with('error', 'Неправильний логін або пароль');
-		}
+        if (!Auth::attempt($request->only(['username', 'password']), $request->has('remember'))) {
+            return redirect()->back()->with('error', 'Неправильний логін або пароль');
+        }
 
         return redirect()->route('admin.home')->with('info', 'Вітаю, адмін');
-		
-    } 
-    public function getLogout() 
-    {
-		Auth::logout();
-		return redirect()->route('home');
-	}
 
-	public function checkEmail()
+    }
+
+    public function getLogout()
+    {
+        Auth::logout();
+
+        return redirect()->route('home');
+    }
+
+    public function checkEmail()
     {
         return view('auth.check-email');
     }
 
-	public function postCheckEmail(Request $request)
+    public function postCheckEmail(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email|max:255|exists:users,email'
+            'email' => 'required|email|max:255|exists:users,email',
         ]);
 
         $user = User::where('email', $request->input('email'))->get()->first();
 
-        if(count($user) > 0) {
+        if (count($user) > 0) {
             $token = $this->generateToken();
             PasswordReset::create([
                 'email' => $request->input('email'),
-                'token' => $token
+                'token' => $token,
             ]);
 
             $data = [
                 'name' => $user->getNameOrUsername(),
                 'url' => route('auth.resetPassword', ['token' => $token]),
-                'toEmail' => $userEmail = $request->input('email')
+                'toEmail' => $userEmail = $request->input('email'),
             ];
-            Mail::send('auth.passwords.email', ['data' => $data], function($message) use ($data) {
+            Mail::send('auth.passwords.email', ['data' => $data], function ($message) use ($data) {
                 //TODO: Make something with this shit
                 /*$email = Contact::first()->email;
 
                 $message->from($email);*/
                 $message->to($data['toEmail'])->subject('Скинути пароль для продовження дамінациї');
             });
+
             return redirect()
                 ->route('auth.login')
                 ->with('success', 'Перевіряй пошту, там лінк на відновлення паролю досі прийшов, башка ти дирява!');
@@ -108,12 +113,12 @@ class AuthController extends Controller
     {
         $now = Carbon::now()->subMinutes(10);
         $pr = PasswordReset::where([
-                ['token', '=', $token],
-                ['created_at', '>', $now]
-            ])
+            ['token', '=', $token],
+            ['created_at', '>', $now],
+        ])
             ->first();
         if (count($pr) > 0) {
-            return view ('auth.password-reset', ['token' => $token]);
+            return view('auth.password-reset', ['token' => $token]);
         } else {
             return redirect()
                 ->route('auth.login')
@@ -125,7 +130,7 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'newPassword' => 'required|min:6',
-            'newPasswordRepeat' => 'required|same:newPassword'
+            'newPasswordRepeat' => 'required|same:newPassword',
         ]);
 
         $email = PasswordReset::where('token', $token)->first()->email;

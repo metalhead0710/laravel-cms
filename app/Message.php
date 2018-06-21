@@ -11,6 +11,6 @@ class Message extends Model
         'sendname',
         'email',
         'content',
-        'isNew'
+        'isNew',
     ];
 }

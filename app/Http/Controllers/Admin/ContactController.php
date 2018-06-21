@@ -11,14 +11,16 @@ class ContactController extends ControllerBase
     public function index()
     {
         $contact = Contact::first();
+
         return view('admin.contacts.index', ['contact' => $contact]);
     }
+
     public function postIndex(Request $request)
     {
         $this->validate($request, [
             'email' => 'required|email|max:255',
             'phone' => 'max:20',
-            'phone2' => 'max:20'
+            'phone2' => 'max:20',
         ]);
         $contact = Contact::first();
         if (!$contact) {
@@ -27,8 +29,7 @@ class ContactController extends ControllerBase
                 'phone' => $request->input('phone'),
                 'phone2' => $request->input('phone2'),
             ]);
-        }
-        else {
+        } else {
             $contact->email = $request->input('email');
             $contact->phone = $request->input('phone');
             $contact->phone2 = $request->input('phone2');

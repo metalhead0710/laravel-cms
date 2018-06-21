@@ -24,11 +24,10 @@ class SettingsController extends ControllerBase
             'subTitle' => 'required',
             'meta_keywords' => 'required',
             'meta_description' => 'required',
-            'siteLogo' => 'mimes:jpeg,bmp,png'
+            'siteLogo' => 'mimes:jpeg,bmp,png',
         ]);
         $settings = Setting::find(1);
-        if($request->hasFile('siteLogo'))
-        {
+        if ($request->hasFile('siteLogo')) {
             $siteLogo = $request->file('siteLogo');
 
             $fileArray = FileUpload::uploadAndMakeThumb(
@@ -46,10 +45,9 @@ class SettingsController extends ControllerBase
                 'meta_keywords' => $request->input('meta_keywords'),
                 'meta_description' => $request->input('meta_description'),
                 'siteLogo' => isset($fileArray) ? $fileArray['fileUrl'] : '',
-                'siteLogoThumb' => isset($fileArray) ? $fileArray['thumbUrl'] : ''
+                'siteLogoThumb' => isset($fileArray) ? $fileArray['thumbUrl'] : '',
             ]);
-        }
-        else {
+        } else {
             FileUpload::deleteImageAndThumb($settings->siteLogo, $settings->siteLogoThumb);
             $settings->mainTitle = $request->input('mainTitle');
             $settings->subTitle = $request->input('subTitle');
@@ -62,6 +60,7 @@ class SettingsController extends ControllerBase
         if ($storeSettings) {
             return redirect()->route('admin.settings')->with('success', 'Налаштування збережено');
         }
+
         return redirect()->route('admin.settings')->with('error', 'Налаштування не збережено');
     }
 }

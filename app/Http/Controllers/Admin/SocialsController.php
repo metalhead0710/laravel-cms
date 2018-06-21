@@ -21,7 +21,7 @@ class SocialsController extends ControllerBase
     {
         if (!intval($request->input('id'))) {
             $this->validateInput($request);
-            if($request->hasFile('icon')) {
+            if ($request->hasFile('icon')) {
                 $icon = $request->file('icon');
                 $fileInfo = FileUpload::uploadAndMakeThumb(
                     $icon,
@@ -35,7 +35,7 @@ class SocialsController extends ControllerBase
                         'name' => $request->input('name'),
                         'icon' => isset($fileInfo) ? $fileInfo['fileUrl'] : '',
                         'thumb' => isset($fileInfo) ? $fileInfo['thumbUrl'] : '',
-                        'url' => $request->input('url')
+                        'url' => $request->input('url'),
                     ]);
 
                     return redirect()->route('admin.socials')->with('success', 'Соціалку додано');
@@ -43,6 +43,7 @@ class SocialsController extends ControllerBase
 
                 return redirect()->route('admin.socials')->with('error', 'Соціалку не додано');
             }
+
             return redirect()->route('admin.socials')->with('error', 'Ви не вибрали зображення. Ви довбойоб');
         } else {
             $id = intval($request->input('id'));
@@ -68,15 +69,18 @@ class SocialsController extends ControllerBase
             if ($social->save()) {
                 return redirect()->route('admin.socials')->with('success', 'Соціалку збережено');
             }
+
             return redirect()->route('admin.socials')->with('error', 'Соціалку не збережено. Хуйня получилася');
         }
     }
 
-    public function getOne(int $id) {
+    public function getOne(int $id)
+    {
         $social = Social::find($id);
         if (!empty($social)) {
             return $social;
         }
+
         return false;
     }
 
@@ -90,6 +94,7 @@ class SocialsController extends ControllerBase
             if ($social->delete()) {
                 return redirect()->route('admin.socials')->with('success', 'Соціалку видалено');
             }
+
             return redirect()->route('admin.socials')->with('error', 'Трапилась хуйня на сервері. Спробуйте пізніше.');
         }
     }
@@ -99,7 +104,7 @@ class SocialsController extends ControllerBase
         $this->validate($request, [
             'name' => 'required|max:255',
             'icon' => 'required|mimes:jpeg,bmp,png',
-            'url' => 'required|max:255'
+            'url' => 'required|max:255',
         ]);
     }
 
@@ -107,7 +112,7 @@ class SocialsController extends ControllerBase
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'url' => 'required|max:255'
+            'url' => 'required|max:255',
         ]);
     }
 }

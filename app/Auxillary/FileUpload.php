@@ -15,6 +15,7 @@ class FileUpload
     const FOLDER = 'upload/';
 
     /**
+     * Uploads File to a folder, returns array with info or false
      * @param UploadedFile $file
      * @param string  $folderName
      * @param string  $prefix
@@ -43,6 +44,8 @@ class FileUpload
     }
 
     /**
+     * Uploads File to a folder and makes thumb, returns array with info or false
+     *
      * @param UploadedFile $file
      * @param string  $folderName
      * @param string  $prefix

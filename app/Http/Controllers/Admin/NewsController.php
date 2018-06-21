@@ -96,6 +96,7 @@ class NewsController extends ControllerBase
         if ($new->save()) {
             return redirect()->route('admin.news')->with('success', 'Новину збережено');
         }
+
         return redirect()->back()->with('error', 'Щось пішло не так');
     }
 
@@ -109,6 +110,7 @@ class NewsController extends ControllerBase
         if ($new->delete()) {
             return redirect(route('admin.news'))->with('success', 'Новину видалено');
         }
+
         return redirect(route('admin.news'))->with('error', 'Не можу видалити новину');
     }
 }

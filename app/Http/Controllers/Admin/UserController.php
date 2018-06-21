@@ -13,6 +13,7 @@ class UserController extends ControllerBase
     public function edit()
     {
         $user = User::first();
+
         return view('admin.user.edit', ['user' => $user]);
     }
 
@@ -22,7 +23,7 @@ class UserController extends ControllerBase
             'username' => 'required|alpha_dash|max:20',
             'email' => 'required|email|max:255',
             'firstName' => 'required|max:255',
-            'lastName' => 'required|max:255'
+            'lastName' => 'required|max:255',
         ]);
         $user = User::first();
         $user->firstName = $request->input('firstName');
@@ -66,7 +67,7 @@ class UserController extends ControllerBase
         $this->validate($request, [
             'oldPassword' => 'required',
             'newPassword' => 'required|min:6',
-            'newPasswordRepeat' => 'required|same:newPassword'
+            'newPasswordRepeat' => 'required|same:newPassword',
         ]);
 
         $user = User::first();
@@ -74,11 +75,12 @@ class UserController extends ControllerBase
         if (Hash::check($request->input('oldPassword'), $user->password)) {
             $user->password = bcrypt($request->input('newPassword'));
 
-            if($user->save()) {
-                return redirect()->route('admin.user.changePass')->with('success', "Ти поміняв пароль, ти дамінатор!!!" );
+            if ($user->save()) {
+                return redirect()->route('admin.user.changePass')->with('success', "Ти поміняв пароль, ти дамінатор!!!");
             }
         }
 
-        return redirect()->route('admin.user.changePass')->with('error', "Ой, бля, ломитись він сюди надумав, іди нахуй, шльоцик!!!" );
+        return redirect()->route('admin.user.changePass')->with('error',
+            "Ой, бля, ломитись він сюди надумав, іди нахуй, шльоцик!!!");
     }
 }

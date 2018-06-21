@@ -201,7 +201,3 @@
     return $.data(root, '_Analytics');
   };
 })(jQuery);
-
-$(document).ready(function() {
-
-});

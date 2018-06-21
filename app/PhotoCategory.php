@@ -17,7 +17,11 @@ class PhotoCategory extends Model
 
     public function photos()
     {
-        return $this->hasMany('PyroMans\Photo', 'categoryId', 'id');
+        return $this->hasMany(
+            \PyroMans\Photo::class,
+            'categoryId',
+            'id'
+        );
     }
 
 }

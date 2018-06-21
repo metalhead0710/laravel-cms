@@ -16,6 +16,10 @@ class Photo extends Model
 
     public function category()
     {
-        return $this->belongsTo('PyroMans\PhotoCategory', 'categoryId', 'id');
+        return $this->belongsTo(
+            \PyroMans\PhotoCategory::class,
+            'categoryId',
+            'id'
+        );
     }
 }
