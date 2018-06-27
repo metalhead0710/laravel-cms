@@ -12,7 +12,7 @@
       this.root = $(root);
       //Mix passed options with default ones
       this.options = $.extend({}, this.options, options);
-
+      this.banners = this.root.find('.banner-list li');
       this.saveOrderButton = $('.save-order');
       this.sortPopup = this.root.find('.sort-popup');
 
@@ -45,17 +45,15 @@
     },
 
     collectSortState: function() {
-      let vals = [],
-          value = {};
-      $('.banner-list li').each(function() {
-        let id = $(this).data('id'),
-            sort = $(this).data('sort');
-        value = {
-          id: id,
-          sort: sort
+      let vals = [];
+      for(let banner of this.banners) {
+         let value = {
+          id: banner.dataset.id,
+          sort: banner.dataset.sort
         };
         vals.push(value);
-      });
+      }
+
       return vals;
     },
     fixHelperModified: function(e, ul) {
@@ -77,8 +75,8 @@
         url: url,
         data: {ids: data, _token: token},
         dataType: 'json',
-        success: () => {
-          this.getFlashMsg(true);
+        success: (responce) => {
+          this.getFlashMsg(responce.res);
           this.hideSaveButton();
         },
         error: () => {
@@ -95,9 +93,14 @@
         dataType: 'html',
         success: (data) => {
           this.sortPopup.html(data);
-          this.sortPopup.fadeTo(1000, 500).slideUp(500, () => {
+          this.sortPopup.show(300);
+          setTimeout( () => {
+            this.sortPopup.html('');
+          } , 1500);
+
+          /*this.sortPopup.fadeTo(1000, 500).slideUp(500, () => {
             this.sortPopup.slideUp(500);
-          });
+          });*/
         },
         error: function() {
           console.log("Сталася фігня... соррі.");

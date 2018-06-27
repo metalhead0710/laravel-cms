@@ -50,14 +50,18 @@ class BannerController extends Controller
 
     public function sortOut(Request $request)
     {
-        $ids = $request->input('ids');
-        foreach ($ids as $row) {
-            DB::table('banners')
-                ->where('id', $row['id'])
-                ->update(['sort_order' => $row['sort']]);
-        }
+        try {
+            $ids = $request->input('ids');
+            foreach ($ids as $row) {
+                DB::table('banners')
+                    ->where('id', $row['id'])
+                    ->update(['sort_order' => $row['sort']]);
+            }
 
-        return response()->json(['status' => 'success']);
+            return response()->json(['res' => 1]);
+        } catch (\Exception $e) {
+            return response()->json(['res' => 0]);
+        }
     }
 
     public function delete($id)

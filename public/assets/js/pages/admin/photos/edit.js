@@ -87,7 +87,8 @@
     collectSortState: function() {
       let vals = [],
           value = {};
-      this.photoItem.each(function() {
+      this.photoItem.each(function(elem) {
+        // TODO: fix a bug with wrong values collected
         let id = $(this).data('id'),
             sort = $(this).data('sort');
         value = {
@@ -121,6 +122,7 @@
         data: {ids: data, _token: token},
         dataType: 'json',
         success: () => {
+          // TODO: fix a bug with popup
           this.getFlashMsg(true);
           this.hideSaveButton();
         },
