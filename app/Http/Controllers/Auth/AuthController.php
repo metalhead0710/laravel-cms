@@ -76,7 +76,7 @@ class AuthController extends Controller
     public function postCheckEmail(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email|max:255|exists:users,email',
+            'email' => 'required|email|max:255',
         ]);
 
         $user = User::where('email', $request->input('email'))->get()->first();
@@ -94,10 +94,8 @@ class AuthController extends Controller
                 'toEmail' => $userEmail = $request->input('email'),
             ];
             Mail::send('auth.passwords.email', ['data' => $data], function ($message) use ($data) {
-                //TODO: Make something with this shit
-                /*$email = Contact::first()->email;
-
-                $message->from($email);*/
+                $adminEmail = Contact::first()->email ?? env('ADMIN_MAIL');
+                $message->from("$adminEmail", (string)env('ADMIN_NAME'));
                 $message->to($data['toEmail'])->subject('Скинути пароль для продовження дамінациї');
             });
 

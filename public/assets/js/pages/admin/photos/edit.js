@@ -85,18 +85,15 @@
     },
 
     collectSortState: function() {
-      let vals = [],
-          value = {};
-      this.photoItem.each(function(elem) {
-        // TODO: fix a bug with wrong values collected
-        let id = $(this).data('id'),
-            sort = $(this).data('sort');
-        value = {
-          id: id,
-          sort: sort
+      let vals = [];
+      for(let photo of this.sortableBox.find('.box-item')) {
+        let value = {
+          id: photo.dataset.id,
+          sort: photo.dataset.sort
         };
         vals.push(value);
-      });
+      }
+
       return vals;
     },
 
@@ -121,13 +118,12 @@
         url: url,
         data: {ids: data, _token: token},
         dataType: 'json',
-        success: () => {
-          // TODO: fix a bug with popup
-          this.getFlashMsg(true);
+        success: (responce) => {
+          this.getFlashMsg(responce.res);
           this.hideSaveButton();
         },
         error: () => {
-          this.getFlashMsg(false);
+          this.getFlashMsg(0);
         }
       });
     },

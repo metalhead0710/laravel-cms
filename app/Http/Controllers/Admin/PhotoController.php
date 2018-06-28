@@ -57,14 +57,18 @@ class PhotoController extends Controller
 
     public function sortOut(Request $request)
     {
-        $ids = $request->input('ids');
-        foreach ($ids as $row) {
-            DB::table('photos')
-                ->where('id', $row['id'])
-                ->update(['sortOrder' => $row['sort']]);
-        }
+        try {
+            $ids = $request->input('ids');
+            foreach ($ids as $row) {
+                DB::table('photos')
+                    ->where('id', $row['id'])
+                    ->update(['sortOrder' => $row['sort']]);
+            }
 
-        return response()->json(['status' => 'success']);
+            return response()->json(['res' => 1]);
+        } catch (\Exception $e) {
+            return response()->json(['res' => 0]);
+        }
     }
 
     public function update($slug)

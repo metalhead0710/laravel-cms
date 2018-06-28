@@ -64,7 +64,7 @@
       });
       return $helper;
     },
-    updateIndex: function(e, ui) {
+    updateIndex: function() {
       $('.banner-list li').each(function(i) {
         $(this).attr('data-sort', i + 1);
       });
@@ -80,7 +80,7 @@
           this.hideSaveButton();
         },
         error: () => {
-          this.getFlashMsg(false);
+          this.getFlashMsg(0);
         }
       });
     },
