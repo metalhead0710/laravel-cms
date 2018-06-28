@@ -327,7 +327,7 @@ Route::group(['prefix' => 'dominator', 'middleware' => 'PyroMans\Http\Middleware
     /*
      * Popup Message
      */
-    Route::get('/getPopupMsg/{res}', [
+    Route::post('/getPopupMsg/', [
         'uses' => '\PyroMans\Http\Controllers\Admin\PopupController@index',
         'as' => 'admin.popup'
     ]);

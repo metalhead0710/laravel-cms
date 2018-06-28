@@ -104,6 +104,7 @@
 <script type="text/javascript">
     App.Page.PhotoList({
       url: "{{ route('admin.photos.sortout') }}",
+      popupUrl: "{{ route('admin.popup') }}",
       token: "{{csrf_token()}}"
     });
 </script>

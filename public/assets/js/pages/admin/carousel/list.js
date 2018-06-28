@@ -4,6 +4,7 @@
   let Carousel = {
     options: {
       url: null,
+      popupUrl: null,
       token: null
     },
 
@@ -76,20 +77,19 @@
         data: {ids: data, _token: token},
         dataType: 'json',
         success: (responce) => {
-          this.getFlashMsg(responce.res);
+          this.getFlashMsg(responce);
           this.hideSaveButton();
         },
-        error: () => {
-          this.getFlashMsg(0);
+        error: (responce) => {
+          this.getFlashMsg(responce);
         }
       });
     },
     getFlashMsg: function(res) {
-      let data = {};
       $.ajax({
-        type: 'get',
-        url: `/dominator/getPopupMsg/${res}`,
-        data: data,
+        type: 'post',
+        url: this.options.popupUrl,
+        data: res,
         dataType: 'html',
         success: (data) => {
           this.sortPopup.html(data);
@@ -97,10 +97,6 @@
           setTimeout( () => {
             this.sortPopup.html('');
           } , 1500);
-
-          /*this.sortPopup.fadeTo(1000, 500).slideUp(500, () => {
-            this.sortPopup.slideUp(500);
-          });*/
         },
         error: function() {
           console.log("Сталася фігня... соррі.");

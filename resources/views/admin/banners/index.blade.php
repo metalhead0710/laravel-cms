@@ -111,6 +111,7 @@
       $(function() {
         App.Page.Carousel({
             url: "{{ route('admin.banners.sortout') }}",
+            popupUrl: "{{ route('admin.popup') }}",
             token: "{{csrf_token()}}"
         });
         App.Page.CommonIndexFunctions();

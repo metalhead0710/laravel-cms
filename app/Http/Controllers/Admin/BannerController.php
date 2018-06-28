@@ -58,9 +58,18 @@ class BannerController extends Controller
                     ->update(['sort_order' => $row['sort']]);
             }
 
-            return response()->json(['res' => 1]);
+            return response()
+                ->json([
+                    'res' => 1,
+                    'message' => "Відсортовано!!!111"
+                ]);
         } catch (\Exception $e) {
-            return response()->json(['res' => 0]);
+            return response()
+                ->json([
+                    'res' => 0,
+                    'message' => 'Сортувалка накрилася'
+                ]);
+
         }
     }
 

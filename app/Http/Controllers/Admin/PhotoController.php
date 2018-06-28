@@ -65,9 +65,17 @@ class PhotoController extends Controller
                     ->update(['sortOrder' => $row['sort']]);
             }
 
-            return response()->json(['res' => 1]);
+            return response()
+                ->json([
+                    'res' => 1,
+                    'message' => "Відсортовано!!!"
+                ]);
         } catch (\Exception $e) {
-            return response()->json(['res' => 0]);
+            return response()
+                ->json([
+                    'res' => 0,
+                    'message' => 'Сортувалка накрилася'
+                ]);
         }
     }
 
