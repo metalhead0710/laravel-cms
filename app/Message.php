@@ -13,4 +13,9 @@ class Message extends Model
         'content',
         'isNew',
     ];
+
+    public function getEmailAttribute($value)
+    {
+        return "Від: {$value}";
+    }
 }

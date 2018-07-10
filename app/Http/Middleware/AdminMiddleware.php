@@ -4,11 +4,11 @@ namespace PyroMans\Http\Middleware;
 
 use DB;
 use Closure;
-use PyroMans\User;
-use PyroMans\Message;
+use PyroMans\Auxillary\Traits\SharedBackend;
 
 class AdminMiddleware
 {
+    use SharedBackend;
     /**
      * Handle an incoming request.
      *
@@ -23,13 +23,11 @@ class AdminMiddleware
             return redirect('auth/login');
         }
 
-        /* Shared variables */
-        $newMsg = Message::where('isNew', true)->orderBy('created_at', 'DESC')->take(8)->get();
-        $count = Message::where('isNew', true)->count();
-        $user = User::first();
-        view()->share('newMsg', $newMsg);
-        view()->share('count', $count);
-        view()->share('user', $user);
+        $this->getSharedVars();
+        //dd($this->newMsg);
+        view()->share('newMsg', $this->newMsg);
+        view()->share('count', $this->count);
+        view()->share('user', $this->user);
 
         /*SQL palieren*/
         /*DB::listen(function ($query) {
