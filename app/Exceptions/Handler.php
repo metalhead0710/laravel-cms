@@ -3,6 +3,7 @@
 namespace PyroMans\Exceptions;
 
 use Exception;
+use Illuminate\Database\QueryException;
 use Intervention\Image\Exception\NotFoundException;
 use PyroMans\User;
 use PyroMans\Message;
@@ -74,6 +75,14 @@ class Handler extends ExceptionHandler
                     return $this->renderHttpException($e);
                 }
             }
+        }
+        if ($e instanceof QueryException) {
+            return response()->view(
+                'errors.sql',
+                [
+                    'exception' => $e
+                ]
+            );
         }
 
         return parent::render($request, $e);
